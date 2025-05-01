@@ -2,6 +2,7 @@ package wf.garnier.spring.security.authorization.user;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +50,13 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 
 	public String getEmail() {
 		return this.email;
+	}
+
+	public List<String> getRoles() {
+		return this.authorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.map(r -> r.replace("ROLE_", ""))
+			.collect(Collectors.toList());
 	}
 
 }

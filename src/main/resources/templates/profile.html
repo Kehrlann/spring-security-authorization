@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🧑 Profile page [Spring Security Authorization]</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<h1>Profile page</h1>
+<dl>
+    <dt>Username</dt>
+    <dd th:text="${user.getUsername()}"></dd>
+    <dt>Email</dt>
+    <dd th:text="${user.getEmail()}"></dd>
+    <dt>Roles</dt>
+    <dd>
+        <ul th:each="role: ${user.getRoles()}">
+            <li th:text="${role}"></li>
+        </ul>
+    </dd>
+</dl>
+<a href="/private" class="btn">Go to private</a>
+</body>
+</html>

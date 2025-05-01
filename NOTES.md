@@ -11,7 +11,8 @@ Anti-goals:
 ## Thoughts:
 
 What's the story?
--> Mechanics of authz (req security, method sec, authn transformation, auth manager)
+
+-> Mechanics of authz (req security, method sec, authn transformation, auth manager, separate filter chains)
 -> Philosophy of authz (when? RBAC / ReBAC?)
 
 
@@ -30,6 +31,8 @@ What's the story?
 - Custom annotations
 
 ### Field level security
+
+### Separate filter chains
 
 ### Tentative: use-cases -> mTLS vs Username/Password
 

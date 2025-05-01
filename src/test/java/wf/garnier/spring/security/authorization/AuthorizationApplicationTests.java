@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -39,6 +41,38 @@ class AuthorizationApplicationTests {
 			.exchange();
 
 		assertThat(response).hasStatus(HttpStatus.FOUND).hasRedirectedUrl("/login?error");
+	}
+
+	@Test
+	@WithUserDetails(value = "josh") // fetches the real "josh" user, who is admin
+	void adminPage() {
+		var response = mvc.get().uri("/admin").exchange();
+
+		assertThat(response).hasStatus(HttpStatus.OK);
+	}
+
+	@Test
+	@WithMockUser(value = "is-not-admin", roles = { "user" })
+	void adminPageForbidden() {
+		var response = mvc.get().uri("/admin").exchange();
+
+		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+	}
+
+	@Test
+	@WithUserDetails(value = "daniel")
+	void profilePage() {
+		var response = mvc.get().uri("/profile/daniel").exchange();
+
+		assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
+	}
+
+	@Test
+	@WithUserDetails(value = "daniel")
+	void profilePageForbidden() {
+		var response = mvc.get().uri("/profile/felix").exchange();
+
+		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 	}
 
 }
