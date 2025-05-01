@@ -1,5 +1,7 @@
 package wf.garnier.spring.security.authorization;
 
+import wf.garnier.spring.security.authorization.user.DemoUser;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

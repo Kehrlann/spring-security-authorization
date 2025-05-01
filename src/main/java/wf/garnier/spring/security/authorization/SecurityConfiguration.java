@@ -1,14 +1,14 @@
 package wf.garnier.spring.security.authorization;
 
 import java.util.List;
-import java.util.Map;
+import wf.garnier.spring.security.authorization.user.DemoUser;
+import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -29,20 +29,9 @@ class SecurityConfiguration {
 
 	@Bean
 	UserDetailsService userDetailsService() {
-		return new UserDetailsService() {
-			private Map<String, DemoUser> users = Map.of("josh",
-					new DemoUser("josh", "password", "josh@example.com", List.of("user", "admin")), "daniel",
-					new DemoUser("daniel", "password", "daniel@example.com", List.of("user")));
-
-			@Override
-			public DemoUser loadUserByUsername(String username) throws UsernameNotFoundException {
-				var user = users.get(username);
-				if (user == null) {
-					throw new UsernameNotFoundException(username);
-				}
-				return user;
-			}
-		};
+		return new DemoUserDetailsService(
+				new DemoUser("josh", "password", "josh@example.com", List.of("user", "admin")),
+				new DemoUser("daniel", "password", "daniel@example.com", List.of("user")));
 	}
 
 }

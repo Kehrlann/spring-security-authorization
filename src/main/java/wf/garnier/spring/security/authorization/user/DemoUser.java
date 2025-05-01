@@ -1,4 +1,4 @@
-package wf.garnier.spring.security.authorization;
+package wf.garnier.spring.security.authorization.user;
 
 import java.util.Collection;
 import java.util.List;
