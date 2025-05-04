@@ -1,5 +1,6 @@
 package wf.garnier.spring.security.authorization;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,77 +20,97 @@ class AuthorizationApplicationTests {
 	@Autowired
 	private MockMvcTester mvc;
 
-	@Test
-	void login() {
-		var response = mvc.post()
-			.uri("/login")
-			.param("username", "daniel")
-			.param("password", "password")
-			.with(csrf())
-			.exchange();
+	@Nested
+	class Login {
 
-		assertThat(response).hasStatus(HttpStatus.FOUND).hasRedirectedUrl("/private");
+		@Test
+		void login() {
+			var response = mvc.post()
+				.uri("/login")
+				.param("username", "daniel")
+				.param("password", "password")
+				.with(csrf())
+				.exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FOUND).hasRedirectedUrl("/private");
+		}
+
+		@Test
+		void loginFails() {
+			var response = mvc.post()
+				.uri("/login")
+				.param("username", "daniel")
+				.param("password", "wrong-password")
+				.with(csrf())
+				.exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FOUND).hasRedirectedUrl("/login?error");
+		}
+
 	}
 
-	@Test
-	void loginFails() {
-		var response = mvc.post()
-			.uri("/login")
-			.param("username", "daniel")
-			.param("password", "wrong-password")
-			.with(csrf())
-			.exchange();
+	@Nested
+	class Admin {
 
-		assertThat(response).hasStatus(HttpStatus.FOUND).hasRedirectedUrl("/login?error");
+		@Test
+		@WithUserDetails(value = "josh") // fetches the real "josh" user, who is admin
+		void adminPage() {
+			var response = mvc.get().uri("/admin").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK);
+		}
+
+		@Test
+		@WithMockUser(value = "is-not-admin", roles = { "user" })
+		void adminPageForbidden() {
+			var response = mvc.get().uri("/admin").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
 	}
 
-	@Test
-	@WithUserDetails(value = "josh") // fetches the real "josh" user, who is admin
-	void adminPage() {
-		var response = mvc.get().uri("/admin").exchange();
+	@Nested
+	class Profile {
 
-		assertThat(response).hasStatus(HttpStatus.OK);
+		@Test
+		@WithUserDetails(value = "daniel")
+		void profilePage() {
+			var response = mvc.get().uri("/profile/daniel").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
+		}
+
+		@Test
+		@WithUserDetails(value = "daniel")
+		void profilePageForbidden() {
+			var response = mvc.get().uri("/profile/felix").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
 	}
 
-	@Test
-	@WithMockUser(value = "is-not-admin", roles = { "user" })
-	void adminPageForbidden() {
-		var response = mvc.get().uri("/admin").exchange();
+	@Nested
+	class Localhost {
 
-		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
-	}
+		@Test
+		void localhost() {
+			var response = mvc.get().uri("/localhost").exchange();
 
-	@Test
-	@WithUserDetails(value = "daniel")
-	void profilePage() {
-		var response = mvc.get().uri("/profile/daniel").exchange();
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("localhost");
+		}
 
-		assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
-	}
+		@Test
+		void localhostForbidden() {
+			var response = mvc.get().uri("/localhost").with(request -> {
+				request.setServerName("127.0.0.1");
+				return request;
+			}).exchange();
 
-	@Test
-	@WithUserDetails(value = "daniel")
-	void profilePageForbidden() {
-		var response = mvc.get().uri("/profile/felix").exchange();
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
 
-		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
-	}
-
-	@Test
-	void localhost() {
-		var response = mvc.get().uri("/localhost").exchange();
-
-		assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("localhost");
-	}
-
-	@Test
-	void localhostForbidden() {
-		var response = mvc.get().uri("/localhost").with(request -> {
-			request.setServerName("127.0.0.1");
-			return request;
-		}).exchange();
-
-		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 	}
 
 }
