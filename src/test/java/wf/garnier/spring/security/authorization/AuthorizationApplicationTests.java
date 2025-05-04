@@ -90,6 +90,14 @@ class AuthorizationApplicationTests {
 			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}
 
+		@Test
+		@WithUserDetails(value = "josh")
+		void profilePageAdmin() {
+			var response = mvc.get().uri("/profile/daniel").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
+		}
+
 	}
 
 	@Nested

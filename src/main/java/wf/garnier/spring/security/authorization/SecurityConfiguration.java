@@ -10,8 +10,10 @@ import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authorization.AuthorizationManagers;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -33,7 +35,14 @@ class SecurityConfiguration {
 			auth.requestMatchers("/favicon.svg").permitAll();
 			auth.requestMatchers("/error").permitAll();
 			auth.requestMatchers("/admin").hasRole("admin");
-			auth.requestMatchers("/profile/{username}").hasVariable("username").equalTo(Authentication::getName);
+			//@formatter:off
+			auth.requestMatchers("/profile/{username}").access(
+					AuthorizationManagers.anyOf(
+							AuthorityAuthorizationManager.hasRole("admin"),
+							new PathVariableAuthorizationManager("username")
+					)
+			);
+			//@formatter:on
 			auth.requestMatchers("/localhost").access(new LocalhostAuthorizationManager());
 			auth.requestMatchers("/http-basic").access((authSupplier, requestContext) -> {
 				var isHttpBasic = Optional.ofNullable(authSupplier.get())
@@ -93,6 +102,26 @@ class SecurityConfiguration {
 	enum AuthenticationType {
 
 		FORM_LOGIN, HTTP_BASIC
+
+	}
+
+	private static class PathVariableAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+
+		private final String pathVariable;
+
+		public PathVariableAuthorizationManager(String pathVariable) {
+			this.pathVariable = pathVariable;
+		}
+
+		@Override
+		public AuthorizationDecision check(Supplier<Authentication> authSupplier,
+				RequestAuthorizationContext requestContext) {
+			if (authSupplier.get() == null) {
+				return new AuthorizationDecision(false);
+			}
+			var pathValue = requestContext.getVariables().get(this.pathVariable);
+			return new AuthorizationDecision(authSupplier.get().getName().equals(pathValue));
+		}
 
 	}
 
