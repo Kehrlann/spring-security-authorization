@@ -23,7 +23,7 @@ public class DemoUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		return user;
+		return new DemoUser(user);
 	}
 
 }

@@ -28,6 +28,13 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 			.toList();
 	}
 
+	DemoUser(DemoUser other) {
+		this.username = other.getUsername();
+		this.password = other.getPassword().replace("{noop}", "");
+		this.email = other.getEmail();
+		this.authorities = other.getAuthorities();
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
