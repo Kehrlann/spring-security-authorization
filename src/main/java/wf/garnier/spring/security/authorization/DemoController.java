@@ -56,4 +56,10 @@ class DemoController {
 		return "ok";
 	}
 
+	@GetMapping("/http-basic")
+	public String basicPage(Model model) {
+		model.addAttribute("pageName", "HTTP Basic");
+		return "ok";
+	}
+
 }

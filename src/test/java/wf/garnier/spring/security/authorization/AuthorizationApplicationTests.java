@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -107,6 +108,29 @@ class AuthorizationApplicationTests {
 				request.setServerName("127.0.0.1");
 				return request;
 			}).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+	}
+
+	@Nested
+	class HttpBasic {
+
+		@Test
+		void httpBasic() {
+			var response = mvc.get()
+				.uri("/http-basic")
+				.with(SecurityMockMvcRequestPostProcessors.httpBasic("daniel", "password"))
+				.exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("HTTP Basic");
+		}
+
+		@Test
+		@WithMockUser("test-user")
+		void httpBasicForbidden() {
+			var response = mvc.get().uri("/http-basic").exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}

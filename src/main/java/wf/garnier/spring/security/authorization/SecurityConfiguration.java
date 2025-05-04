@@ -1,12 +1,15 @@
 package wf.garnier.spring.security.authorization;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,9 +35,22 @@ class SecurityConfiguration {
 			auth.requestMatchers("/admin").hasRole("admin");
 			auth.requestMatchers("/profile/{username}").hasVariable("username").equalTo(Authentication::getName);
 			auth.requestMatchers("/localhost").access(new LocalhostAuthorizationManager());
+			auth.requestMatchers("/http-basic").access((authSupplier, requestContext) -> {
+				var isHttpBasic = Optional.ofNullable(authSupplier.get())
+					.map(Authentication::getDetails)
+					.map(AuthenticationType.HTTP_BASIC::equals)
+					.orElse(false);
+				return new AuthorizationDecision(isHttpBasic);
+			});
 			auth.anyRequest().authenticated();
+		}).formLogin(formLogin -> {
+			formLogin.defaultSuccessUrl("/private");
+			formLogin
+				.authenticationDetailsSource(new LoginAwareAuthenticationDetailsSource(AuthenticationType.FORM_LOGIN));
+		}).httpBasic(httpBasic -> {
+			httpBasic
+				.authenticationDetailsSource(new LoginAwareAuthenticationDetailsSource(AuthenticationType.HTTP_BASIC));
 		})
-			.formLogin(formLogin -> formLogin.defaultSuccessUrl("/private"))
 			.exceptionHandling(exception -> exception.defaultAuthenticationEntryPointFor(
 					// on /localhost, throw HTTP 403 instead of redirecting to login page
 					new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/localhost")))
@@ -55,6 +71,28 @@ class SecurityConfiguration {
 				RequestAuthorizationContext requestContext) {
 			return new AuthorizationDecision("localhost".equals(requestContext.getRequest().getServerName()));
 		}
+
+	}
+
+	private static class LoginAwareAuthenticationDetailsSource
+			implements AuthenticationDetailsSource<HttpServletRequest, AuthenticationType> {
+
+		private final AuthenticationType authenticationType;
+
+		private LoginAwareAuthenticationDetailsSource(AuthenticationType authenticationType) {
+			this.authenticationType = authenticationType;
+		}
+
+		@Override
+		public AuthenticationType buildDetails(HttpServletRequest context) {
+			return this.authenticationType;
+		}
+
+	}
+
+	enum AuthenticationType {
+
+		FORM_LOGIN, HTTP_BASIC
 
 	}
 
