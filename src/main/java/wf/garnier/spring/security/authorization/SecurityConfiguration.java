@@ -31,7 +31,7 @@ class SecurityConfiguration {
 			auth.requestMatchers("/error").permitAll();
 			auth.requestMatchers("/admin").hasRole("admin");
 			auth.requestMatchers("/profile/{username}").hasVariable("username").equalTo(Authentication::getName);
-			auth.requestMatchers("/localhost").access(new localhostAuthorizationManager());
+			auth.requestMatchers("/localhost").access(new LocalhostAuthorizationManager());
 			auth.anyRequest().authenticated();
 		})
 			.formLogin(formLogin -> formLogin.defaultSuccessUrl("/private"))
@@ -48,7 +48,7 @@ class SecurityConfiguration {
 				new DemoUser("daniel", "password", "daniel@example.com", List.of("user")));
 	}
 
-	private static class localhostAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+	private static class LocalhostAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
 		@Override
 		public AuthorizationDecision check(Supplier<Authentication> authenticationSupplier,
