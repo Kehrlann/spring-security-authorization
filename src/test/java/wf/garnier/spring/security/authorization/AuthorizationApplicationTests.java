@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
@@ -71,6 +73,29 @@ class AuthorizationApplicationTests {
 	@WithUserDetails(value = "daniel")
 	void profilePageForbidden() {
 		var response = mvc.get().uri("/profile/felix").exchange();
+
+		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+	}
+
+	@Test
+	void localhost() {
+		var response = mvc.get().uri("/localhost")
+				.exchange();
+
+		assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("localhost");
+	}
+
+	@Test
+	void localhostForbidden() {
+		var response = mvc.get().uri("/localhost")
+				.with(new RequestPostProcessor() {
+					@Override
+					public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+						request.setServerName("127.0.0.1");
+						return request;
+					}
+				})
+				.exchange();
 
 		assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 	}
