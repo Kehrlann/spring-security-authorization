@@ -1,7 +1,9 @@
 package wf.garnier.spring.security.authorization;
 
+import java.util.Collections;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import wf.garnier.spring.security.authorization.user.DemoUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,6 +16,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -179,6 +182,46 @@ class AuthorizationApplicationTests {
 			@Test
 			void methodProfileAnonymous() {
 				var response = mvc.get().uri("/method/profile/test-user").accept(MediaType.TEXT_HTML).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+			}
+
+		}
+
+		@Nested
+		class Corporate {
+
+			@Test
+			void methodCorporate() {
+				var response = mvc.get()
+					.uri("/method/corporate")
+					.with(user(new DemoUser("Alice", null, "alice@corp.example.com", Collections.emptyList())))
+					.exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("Alice is part of Corp.");
+			}
+
+			@Test
+			void methodCorporateForbidden() {
+				var response = mvc.get()
+					.uri("/method/corporate")
+					.with(user(new DemoUser("Bob", null, "bob@example.com", Collections.emptyList())))
+					.exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+			@Test
+			@WithMockUser("bob")
+			void methodCorporateRawUser() {
+				var response = mvc.get().uri("/method/corporate").exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+			@Test
+			void methodCorporateAnonymous() {
+				var response = mvc.get().uri("/method/corporate").accept(MediaType.TEXT_HTML).exchange();
 
 				assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
 			}

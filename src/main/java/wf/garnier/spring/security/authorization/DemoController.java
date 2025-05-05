@@ -3,6 +3,7 @@ package wf.garnier.spring.security.authorization;
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -69,6 +70,14 @@ class DemoController {
 	public String methodProfile(@PathVariable String username, Model model) {
 		var value = demoService.profile(username);
 		model.addAttribute("pageName", "Method / Profile");
+		model.addAttribute("value", value);
+		return "ok";
+	}
+
+	@GetMapping("/method/corporate")
+	public String methodVip(Authentication authentication, Model model) {
+		var value = demoService.corporate(authentication.getName());
+		model.addAttribute("pageName", "Method / VIP");
 		model.addAttribute("value", value);
 		return "ok";
 	}

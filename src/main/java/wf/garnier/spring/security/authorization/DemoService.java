@@ -11,4 +11,9 @@ class DemoService {
 		return "Hello " + username;
 	}
 
+	@PreAuthorize("@demoAuthorizationService.isCorporate(authentication)")
+	public String corporate(String username) {
+		return username + " is part of Corp.";
+	}
+
 }
