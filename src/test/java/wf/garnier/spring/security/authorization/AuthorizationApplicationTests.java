@@ -222,6 +222,45 @@ class AuthorizationApplicationTests {
 
 		}
 
+		@Nested
+		class AllowedDomains {
+
+			@Test
+			void methodAllowedDomain() {
+				assertThat(mvc.get().uri("/method/allowed-domain").with(user("alice", "corp.example.com")).exchange())
+					.hasStatus(HttpStatus.OK)
+					.bodyText()
+					.contains("alice has a valid email address.");
+				assertThat(mvc.get().uri("/method/allowed-domain").with(user("carol", "ext.example.com")).exchange())
+					.hasStatus(HttpStatus.OK)
+					.bodyText()
+					.contains("carol has a valid email address.");
+			}
+
+			@Test
+			void methodAllowedDomainForbidden() {
+				var response = mvc.get().uri("/method/allowed-domain").with(user("bob", "example.com")).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+			@Test
+			@WithMockUser("bob")
+			void methodAllowedDomainRawUser() {
+				var response = mvc.get().uri("/method/allowed-domain").exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+			@Test
+			void methodAllowedDomainAnonymous() {
+				var response = mvc.get().uri("/method/allowed-domain").accept(MediaType.TEXT_HTML).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+			}
+
+		}
+
 	}
 
 	private static RequestPostProcessor user(String username, String emailDomain) {

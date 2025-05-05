@@ -82,4 +82,12 @@ class DemoController {
 		return "ok";
 	}
 
+	@GetMapping("/method/allowed-domain")
+	public String methodAllowList(Authentication authentication, Model model) {
+		var value = demoService.emailAllowList(authentication.getName());
+		model.addAttribute("pageName", "Method / Allow-list");
+		model.addAttribute("value", value);
+		return "ok";
+	}
+
 }

@@ -16,4 +16,9 @@ class DemoService {
 		return username + " is part of Corp.";
 	}
 
+	@EmailDomain(domains = { "corp.example.com", "ext.example.com" })
+	public String emailAllowList(String username) {
+		return username + " has a valid email address.";
+	}
+
 }

@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
@@ -73,6 +74,11 @@ class SecurityConfiguration {
 		return new DemoUserDetailsService(
 				new DemoUser("josh", "password", "josh@example.com", List.of("user", "admin")),
 				new DemoUser("daniel", "password", "daniel@example.com", List.of("user")));
+	}
+
+	@Bean
+	AnnotationTemplateExpressionDefaults templateExpressionDefaults() {
+		return new AnnotationTemplateExpressionDefaults();
 	}
 
 	private static class LocalhostAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
