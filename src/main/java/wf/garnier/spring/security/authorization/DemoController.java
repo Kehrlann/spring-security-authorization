@@ -17,8 +17,11 @@ class DemoController {
 
 	private final DemoUserDetailsService userDetailsService;
 
-	public DemoController(DemoUserDetailsService userDetailsService) {
+	private final DemoService demoService;
+
+	public DemoController(DemoUserDetailsService userDetailsService, DemoService demoService) {
 		this.userDetailsService = userDetailsService;
+		this.demoService = demoService;
 	}
 
 	@GetMapping("/")
@@ -59,6 +62,14 @@ class DemoController {
 	@GetMapping("/http-basic")
 	public String basicPage(Model model) {
 		model.addAttribute("pageName", "HTTP Basic");
+		return "ok";
+	}
+
+	@GetMapping("/method/profile/{username}")
+	public String methodProfile(@PathVariable String username, Model model) {
+		var value = demoService.profile(username);
+		model.addAttribute("pageName", "Method / Profile");
+		model.addAttribute("value", value);
 		return "ok";
 	}
 

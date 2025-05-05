@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1><th:block th:text="${pageName}"></th:block> page</h1>
+<p th:if="${value} != null" th:text="${value}"></p>
 <a href="/private" class="btn">Go to private</a>
 </body>
 </html>

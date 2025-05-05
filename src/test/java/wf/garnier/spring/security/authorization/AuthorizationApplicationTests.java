@@ -145,4 +145,38 @@ class AuthorizationApplicationTests {
 
 	}
 
+	@Nested
+	class Method {
+
+		@Nested
+		class Profile {
+
+			@Test
+			@WithMockUser("test-user")
+			void methodProfile() {
+				var response = mvc.get().uri("/method/profile/test-user").exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("Hello test-user");
+			}
+
+			@Test
+			@WithMockUser(username = "test-admin", roles = { "user", "admin" })
+			void methodProfileAdmin() {
+				var response = mvc.get().uri("/method/profile/test-user").exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("Hello test-user");
+			}
+
+			@Test
+			@WithMockUser("other-user")
+			void methodProfileForbidden() {
+				var response = mvc.get().uri("/method/profile/test-user").exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+		}
+
+	}
+
 }
