@@ -14,9 +14,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -193,20 +193,14 @@ class AuthorizationApplicationTests {
 
 			@Test
 			void methodCorporate() {
-				var response = mvc.get()
-					.uri("/method/corporate")
-					.with(user(new DemoUser("Alice", null, "alice@corp.example.com", Collections.emptyList())))
-					.exchange();
+				var response = mvc.get().uri("/method/corporate").with(user("alice", "corp.example.com")).exchange();
 
-				assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("Alice is part of Corp.");
+				assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("alice is part of Corp.");
 			}
 
 			@Test
 			void methodCorporateForbidden() {
-				var response = mvc.get()
-					.uri("/method/corporate")
-					.with(user(new DemoUser("Bob", null, "bob@example.com", Collections.emptyList())))
-					.exchange();
+				var response = mvc.get().uri("/method/corporate").with(user("bob", "example.com")).exchange();
 
 				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 			}
@@ -228,6 +222,11 @@ class AuthorizationApplicationTests {
 
 		}
 
+	}
+
+	private static RequestPostProcessor user(String username, String emailDomain) {
+		return SecurityMockMvcRequestPostProcessors
+			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));
 	}
 
 }
