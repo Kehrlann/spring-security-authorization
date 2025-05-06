@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -88,6 +89,12 @@ class DemoController {
 		model.addAttribute("pageName", "Method / Allow-list");
 		model.addAttribute("value", value);
 		return "ok";
+	}
+
+	@GetMapping("/method/email/{username}")
+	@ResponseBody
+	public String methodEmailDomain(@PathVariable String username) {
+		return demoService.emailByUsername(username).getEmail();
 	}
 
 }

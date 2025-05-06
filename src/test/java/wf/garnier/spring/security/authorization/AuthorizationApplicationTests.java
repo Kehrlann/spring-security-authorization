@@ -261,6 +261,32 @@ class AuthorizationApplicationTests {
 
 		}
 
+		@Nested
+		class EmailSameDomain {
+
+			@Test
+			void emailSameDomain() {
+				var response = mvc.get().uri("/method/email/daniel").with(user("alice", "example.com")).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK).bodyText().isEqualTo("daniel@example.com");
+			}
+
+			@Test
+			void emailSameDomainForbidden() {
+				var response = mvc.get().uri("/method/email/daniel").with(user("alice", "corp.example.com")).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+			}
+
+			@Test
+			void emailSameDomainAnonymous() {
+				var response = mvc.get().uri("/method/email/daniel").accept(MediaType.TEXT_HTML).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+			}
+
+		}
+
 	}
 
 	private static RequestPostProcessor user(String username, String emailDomain) {

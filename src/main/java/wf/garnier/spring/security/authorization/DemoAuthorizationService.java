@@ -16,7 +16,7 @@ class DemoAuthorizationService {
 		if (!(authentication.getPrincipal() instanceof DemoUser user)) {
 			return false;
 		}
-		return user.getEmail().split("@")[1].equals("corp.example.com");
+		return getEmailDomain(user).equals("corp.example.com");
 	}
 
 	public boolean hasDomain(Authentication authentication, String[] domains) {
@@ -26,8 +26,19 @@ class DemoAuthorizationService {
 		if (!(authentication.getPrincipal() instanceof DemoUser user)) {
 			return false;
 		}
-		var emailDomain = user.getEmail().split("@")[1];
+		var emailDomain = getEmailDomain(user);
 		return Arrays.asList(domains).contains(emailDomain);
+	}
+
+	public boolean hasSameDomain(Authentication authentication, DemoUser user) {
+		if (!(authentication.getPrincipal() instanceof DemoUser authenticatedUser)) {
+			return false;
+		}
+		return getEmailDomain(authenticatedUser).equals(getEmailDomain(user));
+	}
+
+	private static String getEmailDomain(DemoUser user) {
+		return user.getEmail().split("@")[1];
 	}
 
 }
