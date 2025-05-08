@@ -287,6 +287,43 @@ class AuthorizationApplicationTests {
 
 		}
 
+		@Nested
+		class Shipments {
+
+			@Test
+			@WithMockUser(value = "daniel", roles = { "admin" })
+			void shipmentsAdmin() {
+				var response = mvc.get().uri("/method/shipments").accept(MediaType.APPLICATION_JSON).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK)
+					.bodyJson()
+					.extractingPath("$.[*].address")
+					.asArray()
+					.contains("Bag End, Hobbiton");
+			}
+
+			@Test
+			@WithMockUser(value = "daniel", roles = { "user" })
+			void shipmentsNotAdmin() {
+				var response = mvc.get().uri("/method/shipments").accept(MediaType.APPLICATION_JSON).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.OK)
+					.bodyJson()
+					.extractingPath("$.[*].address")
+					.asArray()
+					.containsOnlyNulls();
+			}
+
+			@Test
+			void shipmentsAnonymous() {
+				var response = mvc.get().uri("/method/shipments").accept(MediaType.TEXT_HTML).exchange();
+
+				assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+
+			}
+
+		}
+
 	}
 
 	private static RequestPostProcessor user(String username, String emailDomain) {

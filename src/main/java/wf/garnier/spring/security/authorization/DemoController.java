@@ -1,8 +1,10 @@
 package wf.garnier.spring.security.authorization;
 
+import java.util.List;
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +23,13 @@ class DemoController {
 
 	private final DemoService demoService;
 
-	public DemoController(DemoUserDetailsService userDetailsService, DemoService demoService) {
+	private final ShipmentRepository shipmentRepository;
+
+	public DemoController(DemoUserDetailsService userDetailsService, DemoService demoService,
+			ShipmentRepository shipmentRepository) {
 		this.userDetailsService = userDetailsService;
 		this.demoService = demoService;
+		this.shipmentRepository = shipmentRepository;
 	}
 
 	@GetMapping("/")
@@ -95,6 +101,12 @@ class DemoController {
 	@ResponseBody
 	public String methodEmailDomain(@PathVariable String username) {
 		return demoService.emailByUsername(username).getEmail();
+	}
+
+	@GetMapping(value = "/method/shipments", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Shipment> shipments() {
+		return shipmentRepository.findAll();
 	}
 
 }
