@@ -54,6 +54,34 @@ class AuthorizationApplicationTests {
 	}
 
 	@Nested
+	class PrivatePage {
+
+		@Test
+		@WithUserDetails("daniel") // use real DemoUser "daniel"
+		void privatePage() {
+			var response = mvc.get().uri("/private").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().doesNotContain("Shipment information");
+		}
+
+		@Test
+		@WithUserDetails("josh")
+		void privatePageAdmin() {
+			var response = mvc.get().uri("/private").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("Shipment information");
+		}
+
+		@Test
+		void privatePageAnonymous() {
+			var response = mvc.get().uri("/private").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+		}
+
+	}
+
+	@Nested
 	class Admin {
 
 		@Test

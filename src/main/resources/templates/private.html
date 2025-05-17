@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>🔐 Private Page [Spring Sec: The Good Parts]</title>
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta charset="UTF-8">
+    <title>🔐 Private Page [Spring Sec: The Good Parts]</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-	<h1>VIP section 🥳🎉🎊</h1>
-	<p>Hello, ~[<th:block th:text="${name}" />]~ !</p>
-	<p>You are on the very exclusive private page.</p>
-	<br>
-	<h2>From here go to</h2>
-	<ul>
-		<li><a href="/admin">/admin</a> - must have role "admin"</li>
-	</ul>
-	<h2>Log out</h2>
-	<form method="post" action="/logout" th:if="${_csrf != null}">
-		<input name="_csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-		<button class="btn" type="submit">Log out</button>
-	</form>
+<h1>VIP section 🥳🎉🎊</h1>
+<p>Hello, ~[
+    <th:block th:text="${name}"/>
+    ]~ !
+</p>
+<p>You are on the very exclusive private page.</p>
+<br>
+<h2>From here go to</h2>
+<ul>
+    <li><a href="/admin">/admin</a> - must have role "admin"</li>
+</ul>
+<th:block th:if="${shipmentCount != null}">
+    <h2>Shipment information (must have role "admin")</h2>
+    <p>There are
+        <th:block th:text="${shipmentCount}"></th:block>
+        shipments.
+    </p>
+</th:block>
+<h2>Log out</h2>
+<form method="post" action="/logout" th:if="${_csrf != null}">
+    <input name="_csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button class="btn" type="submit">Log out</button>
+</form>
 </body>
 </html>

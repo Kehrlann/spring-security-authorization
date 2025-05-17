@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 class DemoController {
 
-	public DemoController() {
+	private final ShipmentRepository shipmentRepository;
+
+	DemoController(ShipmentRepository shipmentRepository) {
+		this.shipmentRepository = shipmentRepository;
 	}
 
 	@GetMapping("/")
@@ -21,6 +24,13 @@ class DemoController {
 	@GetMapping("/private")
 	public String privatePage(@AuthenticationPrincipal DemoUser user, Model model) {
 		model.addAttribute("name", user.getEmail());
+		try {
+			var shipmentCount = shipmentRepository.count();
+			model.addAttribute("shipmentCount", shipmentCount);
+		}
+		catch (Exception _) {
+
+		}
 		return "private";
 	}
 

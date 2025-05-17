@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -28,12 +26,7 @@ class SecurityConfiguration {
 			auth.requestMatchers("/error").permitAll();
 			auth.requestMatchers("/admin").hasRole("admin");
 			auth.anyRequest().authenticated();
-		})
-			.formLogin(formLogin -> formLogin.defaultSuccessUrl("/private"))
-			.exceptionHandling(exception -> exception.defaultAuthenticationEntryPointFor(
-					// on /localhost, throw HTTP 403 instead of redirecting to login page
-					new Http403ForbiddenEntryPoint(), new AntPathRequestMatcher("/localhost")))
-			.build();
+		}).formLogin(formLogin -> formLogin.defaultSuccessUrl("/private")).build();
 	}
 
 	@Bean

@@ -3,6 +3,7 @@ package wf.garnier.spring.security.authorization;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +20,11 @@ class ShipmentRepository {
 
 	public List<Shipment> findAll() {
 		return shipments;
+	}
+
+	@PreAuthorize("hasRole('admin')")
+	public int count() {
+		return shipments.size();
 	}
 
 }
