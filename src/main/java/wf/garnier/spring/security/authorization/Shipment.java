@@ -27,8 +27,6 @@ class Shipment {
 		return id;
 	}
 
-	@PreAuthorize("hasRole('admin')")
-	@HandleAuthorizationDenied(handlerClass = NullMethodAuthorizationDeniedHandler.class)
 	public String getAddress() {
 		return address;
 	}

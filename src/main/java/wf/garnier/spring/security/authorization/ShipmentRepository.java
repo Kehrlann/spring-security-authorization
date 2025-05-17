@@ -3,12 +3,9 @@ package wf.garnier.spring.security.authorization;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.authorization.method.AuthorizeReturnObject;
-import org.springframework.security.authorization.method.HandleAuthorizationDenied;
 import org.springframework.stereotype.Component;
 
 @Component
-@AuthorizeReturnObject
 class ShipmentRepository {
 
 	private final List<Shipment> shipments = List.of(
