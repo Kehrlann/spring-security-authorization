@@ -50,3 +50,4 @@ Parked:
 
 - Role hierarchy
 - External auth service
+- Have a fragment to showcase user information
