@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -24,6 +25,17 @@ public class DemoUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		return new DemoUser(user);
+	}
+
+	/**
+	 * Expose a new method for demo purposes, so we can annotate it.
+	 */
+	@PostAuthorize("""
+			authentication.getPrincipal().getClass().getSimpleName().equals("DemoUser") &&
+			authentication.getPrincipal().getEmail().domain().equals(returnObject.getEmail().domain())
+			""")
+	public DemoUser findUser(String username) {
+		return loadUserByUsername(username);
 	}
 
 }

@@ -46,9 +46,9 @@ class DemoController {
 		return "admin";
 	}
 
-	@GetMapping("/profile/{username}")
+	@GetMapping({ "/profile/{username}", "/method-security/profile/{username}" })
 	public String profile(@PathVariable String username, Model model) {
-		var user = demoUserDetailsService.loadUserByUsername(username);
+		var user = demoUserDetailsService.findUser(username);
 		model.addAttribute("user", user);
 		return "profile";
 	}
