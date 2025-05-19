@@ -59,6 +59,10 @@ class SecurityConfiguration {
 				}
 				return new AuthorizationDecision(false);
 			});
+
+			auth.requestMatchers("/localhost").access((authSupplier, reqCtx) -> {
+				return new AuthorizationDecision(reqCtx.getRequest().getServerName().equals("localhost"));
+			});
 			auth.anyRequest().authenticated();
 		}).formLogin(formLogin -> {
 			formLogin.defaultSuccessUrl("/private");

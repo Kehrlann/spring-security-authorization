@@ -286,6 +286,31 @@ class AuthorizationApplicationTests {
 
 	}
 
+	@Nested
+	class Localhost {
+
+		@Test
+		void localhostOk() {
+			var response = mvc.get().uri("/localhost").with(request -> {
+				request.setServerName("localhost");
+				return request;
+			}).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK);
+		}
+
+		@Test
+		void localhostDenied() {
+			var response = mvc.get().uri("/localhost").with(request -> {
+				request.setServerName("127.0.0.1");
+				return request;
+			}).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+
 	private static RequestPostProcessor user(String username, String emailDomain) {
 		return SecurityMockMvcRequestPostProcessors
 			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));

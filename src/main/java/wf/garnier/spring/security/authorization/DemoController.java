@@ -22,7 +22,7 @@ class DemoController {
 		this.demoUserDetailsService = demoUserDetailsService;
 	}
 
-	@GetMapping({ "/", "/http-basic" })
+	@GetMapping({ "/", "/http-basic", "/localhost" })
 	public String index() {
 		return "index";
 	}
