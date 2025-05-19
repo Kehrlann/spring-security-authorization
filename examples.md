@@ -51,3 +51,5 @@ Parked:
 - Role hierarchy
 - External auth service
 - Have a fragment to showcase user information
+- RC1
+- Path variable make it smoother
