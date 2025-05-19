@@ -20,8 +20,8 @@ class ShipmentRepository {
 
 	@PreAuthorize("""
 			authentication.getPrincipal().getClass().getSimpleName().equals("DemoUser") &&
-			(authentication.getPrincipal().getEmail.endsWith("@corp.example.com") ||
-			authentication.getPrincipal().getEmail.endsWith("@example.com"))
+			(authentication.getPrincipal().getEmail().domain().equals("corp.example.com") ||
+			authentication.getPrincipal().getEmail().domain().equals("example.com"))
 			""")
 	public List<Shipment> findAll() {
 		return shipments;

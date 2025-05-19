@@ -17,10 +17,10 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 
 	private final Collection<? extends GrantedAuthority> authorities;
 
-	private final String email;
+	private final Email email;
 
 	public DemoUser(String username, String password, String email, List<String> roles) {
-		this.email = email;
+		this.email = new Email(email);
 		this.password = password;
 		this.username = username;
 		this.authorities = roles.stream()
@@ -55,8 +55,19 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 		this.password = null;
 	}
 
-	public String getEmail() {
+	public Email getEmail() {
 		return this.email;
+	}
+
+	public record Email(String address, String domain) {
+		public Email(String email) {
+			this(email.split("@")[0], email.split("@")[1]);
+		}
+
+		@Override
+		public String toString() {
+			return "%s@%s".formatted(address, domain);
+		}
 	}
 
 	public List<String> getRoles() {

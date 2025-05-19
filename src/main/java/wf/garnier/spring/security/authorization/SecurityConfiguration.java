@@ -46,7 +46,8 @@ class SecurityConfiguration {
 					return new AuthorizationDecision(false);
 				}
 
-				var isCorp = u.getEmail().endsWith("@corp.example.com") || u.getEmail().endsWith("@example.com");
+				var isCorp = u.getEmail().domain().equals("corp.example.com")
+						|| u.getEmail().domain().equals("example.com");
 				return new AuthorizationDecision(isCorp);
 			});
 			auth.anyRequest().authenticated();
