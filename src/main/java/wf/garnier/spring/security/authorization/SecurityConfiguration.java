@@ -48,7 +48,7 @@ class SecurityConfiguration {
 			//@formatter:off
 			auth.requestMatchers("/profile/{username}").access(
 					AuthorizationManagers.anyOf(
-						new AuthenticationNameMatchesVariable("username"),
+						new NameMatchesVariableAuthorizationManager("username"),
 						AuthorityAuthorizationManager.hasRole("admin")
 					)
 			);
@@ -94,29 +94,6 @@ class SecurityConfiguration {
 	@Bean
 	AnnotationTemplateExpressionDefaults annotationTemplateExpressionDefaults() {
 		return new AnnotationTemplateExpressionDefaults();
-	}
-
-	private static class AuthenticationNameMatchesVariable
-			implements AuthorizationManager<RequestAuthorizationContext> {
-
-		private final String variableName;
-
-		public AuthenticationNameMatchesVariable(String variableName) {
-			this.variableName = variableName;
-		}
-
-		@Override
-		public AuthorizationDecision check(Supplier<Authentication> authentication,
-				RequestAuthorizationContext requestContext) {
-			var value = requestContext.getVariables().get(variableName);
-			var auth = authentication.get();
-			if (auth.getName().equals(value)) {
-				return new AuthorizationDecision(true);
-			}
-
-			return new AuthorizationDecision(false);
-		}
-
 	}
 
 }
