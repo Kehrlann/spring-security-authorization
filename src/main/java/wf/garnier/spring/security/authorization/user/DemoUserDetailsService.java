@@ -30,10 +30,7 @@ public class DemoUserDetailsService implements UserDetailsService {
 	/**
 	 * Expose a new method for demo purposes, so we can annotate it.
 	 */
-	@PostAuthorize("""
-			authentication.getPrincipal().getClass().getSimpleName().equals("DemoUser") &&
-			authentication.getPrincipal().getEmail().domain().equals(returnObject.getEmail().domain())
-			""")
+	@PostAuthorize("@authorizationService.sameDomain(authentication, returnObject)")
 	public DemoUser findUser(String username) {
 		return loadUserByUsername(username);
 	}
