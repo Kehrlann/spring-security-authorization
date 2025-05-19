@@ -106,7 +106,7 @@ class AuthorizationApplicationTests {
 	class Profile {
 
 		@Test
-		@WithUserDetails(value = "daniel")
+		@WithMockUser(value = "daniel")
 		void profilePage() {
 			var response = mvc.get().uri("/profile/daniel").exchange();
 
@@ -114,11 +114,19 @@ class AuthorizationApplicationTests {
 		}
 
 		@Test
-		@WithUserDetails(value = "daniel")
+		@WithMockUser(value = "test-user")
 		void profilePageForbidden() {
 			var response = mvc.get().uri("/profile/felix").exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		@WithMockUser(value = "test-user", roles = "admin")
+		void profilePageAdmin() {
+			var response = mvc.get().uri("/profile/daniel").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
 		}
 
 	}
