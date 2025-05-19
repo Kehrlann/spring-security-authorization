@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,6 +26,7 @@ class SecurityConfiguration {
 			auth.requestMatchers("/favicon.svg").permitAll();
 			auth.requestMatchers("/error").permitAll();
 			auth.requestMatchers("/admin").hasRole("admin");
+			auth.requestMatchers("/profile/{username}").hasVariable("username").equalTo(Authentication::getName);
 			auth.anyRequest().authenticated();
 		}).formLogin(formLogin -> formLogin.defaultSuccessUrl("/private")).build();
 	}

@@ -102,6 +102,27 @@ class AuthorizationApplicationTests {
 
 	}
 
+	@Nested
+	class Profile {
+
+		@Test
+		@WithUserDetails(value = "daniel")
+		void profilePage() {
+			var response = mvc.get().uri("/profile/daniel").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
+		}
+
+		@Test
+		@WithUserDetails(value = "daniel")
+		void profilePageForbidden() {
+			var response = mvc.get().uri("/profile/felix").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+	}
+
 	private static RequestPostProcessor user(String username, String emailDomain) {
 		return SecurityMockMvcRequestPostProcessors
 			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));
