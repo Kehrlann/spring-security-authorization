@@ -3,6 +3,7 @@ package wf.garnier.spring.security.authorization;
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 class DemoController {
 
 	private final ShipmentRepository shipmentRepository;
+
 	private final DemoUserDetailsService demoUserDetailsService;
 
 	DemoController(ShipmentRepository shipmentRepository, DemoUserDetailsService demoUserDetailsService) {
@@ -49,6 +51,13 @@ class DemoController {
 		var user = demoUserDetailsService.loadUserByUsername(username);
 		model.addAttribute("user", user);
 		return "profile";
+	}
+
+	@GetMapping("/corp")
+	public String corporate(Authentication authentication, Model model) {
+		model.addAttribute("pageName", "Corporate");
+		model.addAttribute("value", "%s is part of Corp.".formatted(authentication.getName()));
+		return "ok";
 	}
 
 }

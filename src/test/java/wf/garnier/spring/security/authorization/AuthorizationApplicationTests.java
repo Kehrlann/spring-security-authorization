@@ -123,6 +123,47 @@ class AuthorizationApplicationTests {
 
 	}
 
+	@Nested
+	class Corporate {
+
+		@Test
+		void methodCorporate() {
+			var response = mvc.get().uri("/corp").with(user("alice", "corp.example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("alice is part of Corp.");
+		}
+
+		@Test
+		void methodCorporateForbidden() {
+			var response = mvc.get().uri("/corp").with(user("bob", "ext.example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		void methodCorporateRoot() {
+			var response = mvc.get().uri("/corp").with(user("carol", "example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("carol is part of Corp.");
+		}
+
+		@Test
+		@WithMockUser("bob")
+		void methodCorporateRawUser() {
+			var response = mvc.get().uri("/corp").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		void methodCorporateAnonymous() {
+			var response = mvc.get().uri("/corp").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+		}
+
+	}
+
 	private static RequestPostProcessor user(String username, String emailDomain) {
 		return SecurityMockMvcRequestPostProcessors
 			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));
