@@ -27,6 +27,8 @@ class Shipment {
 		return id;
 	}
 
+	@PreAuthorize("hasRole('admin')")
+	@HandleAuthorizationDenied(handlerClass = RedactedAuthorizationHandler.class)
 	public String getAddress() {
 		return address;
 	}

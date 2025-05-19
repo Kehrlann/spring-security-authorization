@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authorization.method.AuthorizeReturnObject;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,6 +21,7 @@ class ShipmentRepository {
 
 
 	@HasDomain(domains = {"corp.example.com", "example.com"})
+	@AuthorizeReturnObject
 	public List<Shipment> findAll() {
 		return shipments;
 	}

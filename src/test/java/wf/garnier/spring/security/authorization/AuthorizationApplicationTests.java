@@ -179,7 +179,21 @@ class AuthorizationApplicationTests {
 		void shipments() {
 			var response = mvc.get().uri("/shipments").with(user("alice", "corp.example.com")).exchange();
 
-			assertThat(response).hasStatus(HttpStatus.OK);
+			assertThat(response).hasStatus(HttpStatus.OK)
+				.bodyText()
+				.contains("REDACTED")
+				.doesNotContain("Palau de Congressos");
+		}
+
+		@Test
+		@WithUserDetails(value = "josh")
+		void shipmentsWithAddress() {
+			var response = mvc.get().uri("/shipments").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK)
+				.bodyText()
+				.contains("Palau de Congressos")
+				.doesNotContain("REDACTED");
 		}
 
 		@Test
