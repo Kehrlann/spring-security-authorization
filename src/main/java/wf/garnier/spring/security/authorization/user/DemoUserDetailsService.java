@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -21,8 +19,7 @@ public class DemoUserDetailsService implements UserDetailsService {
 	public DemoUserDetailsService(DemoUser... users) {
 		this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-		this.users = Arrays.stream(users)
-			.collect(Collectors.toMap(DemoUser::getUsername, Function.identity()));
+		this.users = Arrays.stream(users).collect(Collectors.toMap(DemoUser::getUsername, Function.identity()));
 	}
 
 	@Override
@@ -37,7 +34,6 @@ public class DemoUserDetailsService implements UserDetailsService {
 	/**
 	 * Expose a new method for demo purposes, so we can annotate it.
 	 */
-	@PostAuthorize("@authorizationService.sameDomain(authentication, returnObject)")
 	public DemoUser findUser(String username) {
 		try {
 			return loadUserByUsername(username);
@@ -47,7 +43,6 @@ public class DemoUserDetailsService implements UserDetailsService {
 		}
 	}
 
-	@PreAuthorize("principal.username == #username")
 	public void updatePassword(String username, String newPassword) {
 		var existingUser = loadUserByUsername(username);
 		var updated = new DemoUser(existingUser.getUsername(), passwordEncoder.encode(newPassword),
