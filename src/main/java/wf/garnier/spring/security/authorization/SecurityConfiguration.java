@@ -86,7 +86,9 @@ class SecurityConfiguration {
 	DemoUserDetailsService userDetailsService() {
 		return new DemoUserDetailsService(
 				new DemoUser("josh", "password", "josh@example.com", List.of("user", "admin")),
-				new DemoUser("daniel", "password", "daniel@example.com", List.of("user")));
+				new DemoUser("daniel", "password", "daniel@example.com", List.of("user")),
+				new DemoUser("alice", "password", "alice@corp.example.com", List.of("user")),
+				new DemoUser("bob", "password", "bob@ext.example.com", List.of("user")));
 	}
 
 	@Bean
