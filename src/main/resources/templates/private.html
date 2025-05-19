@@ -15,16 +15,30 @@
 <p>You are on the very exclusive private page.</p>
 <br>
 <h2>From here go to</h2>
-<ul>
-    <li><a href="/admin">/admin</a> - must have role "admin"</li>
-</ul>
-<th:block th:if="${shipmentCount != null}">
-    <h2>Shipment information (must have role "admin")</h2>
-    <p>There are
-        <th:block th:text="${shipmentCount}"></th:block>
-        shipments.
-    </p>
-</th:block>
+<div class="content left-align">
+    <ul>
+        <li><a href="/admin">/admin</a> - must have role "admin"</li>
+        <li><a href="/profile/daniel">/profile/daniel</a> - login name must match username in path</li>
+        <li><a href="/corp">/corp</a> - must have a
+            <pre class="inline bold">@corp.example.com</pre>
+            email address
+        </li>
+        <li><a href="/shipments">/shipments</a> - must have a
+            <pre class="inline bold">@corp.example.com</pre>
+            email address
+        </li>
+        <li><a href="/method-security/profile/josh">/method-security/profile/josh</a> - must have same email domain</li>
+        <li><a href="/http-basic">/http-basic</a> - must login with HTTP basic</li>
+        <li><a href="/localhost">/localhost</a> - must access from localhost</li>
+    </ul>
+    <th:block th:if="${shipmentCount != null}">
+        <h2>Shipment information (must have role "admin")</h2>
+        <p>There are
+            <th:block th:text="${shipmentCount}"></th:block>
+            shipments.
+        </p>
+    </th:block>
+</div>
 <h2>Log out</h2>
 <form method="post" action="/logout" th:if="${_csrf != null}">
     <input name="_csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

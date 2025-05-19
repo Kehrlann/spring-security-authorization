@@ -64,3 +64,20 @@ h1 {
 .left-align {
     text-align: left;
 }
+.bold {
+    font-weight: bold;
+}
+pre.inline {
+    display: inline;
+    font-size: .9rem;
+}
+li {
+    line-height: 2rem;
+}
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+    display: inline-block;
+}
