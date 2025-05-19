@@ -18,6 +18,11 @@ class ShipmentRepository {
 			new Shipment(UUID.randomUUID(), "Palau de Congressos, Av. de la Reina Maria Cristina",
 					Shipment.Status.DELIVERED, List.of("What a great conference ❤️")));
 
+	@PreAuthorize("""
+			authentication.getPrincipal().getClass().getSimpleName().equals("DemoUser") &&
+			(authentication.getPrincipal().getEmail.endsWith("@corp.example.com") ||
+			authentication.getPrincipal().getEmail.endsWith("@example.com"))
+			""")
 	public List<Shipment> findAll() {
 		return shipments;
 	}

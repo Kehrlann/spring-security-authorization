@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🎁 Shipments Page [Spring Security Authorization]</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<h1>Shipments</h1>
+
+<div class="left-align">
+    <div th:each="shipment: ${shipments}">
+        <h3>Shipment ID: <th:block th:text="${shipment.getId()}"></th:block></h3>
+        <ul>
+            <li><b>Status: </b><th:block th:text="${shipment.getStatus()}"></th:block></li>
+            <li><b>Address: </b><th:block th:text="${shipment.getAddress()}"></th:block></li>
+            <li><b>Events: </b><ul><li th:each="event: ${shipment.getEvents()}" th:text="${event}"></li></ul></li>
+        </ul>
+    </div>
+
+</div>
+<p></p>
+<a href="/private" class="btn">Go to private</a>
+</body>
+</html>

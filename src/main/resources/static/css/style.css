@@ -61,3 +61,6 @@ h1 {
     -webkit-transform:translateX(0);
     transform:translateX(0);
 }
+.left-align {
+    text-align: left;
+}

@@ -172,6 +172,47 @@ class AuthorizationApplicationTests {
 
 	}
 
+	@Nested
+	class Shipments {
+
+		@Test
+		void shipments() {
+			var response = mvc.get().uri("/shipments").with(user("alice", "corp.example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK);
+		}
+
+		@Test
+		void shipmentsForbidden() {
+			var response = mvc.get().uri("/shipments").with(user("bob", "ext.example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		void shipmentsRoot() {
+			var response = mvc.get().uri("/shipments").with(user("carol", "example.com")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK);
+		}
+
+		@Test
+		@WithMockUser("bob")
+		void shipmentsRawUser() {
+			var response = mvc.get().uri("/shipments").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
+		}
+
+		@Test
+		void shipmentsAnonymous() {
+			var response = mvc.get().uri("/shipments").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+		}
+
+	}
+
 	private static RequestPostProcessor user(String username, String emailDomain) {
 		return SecurityMockMvcRequestPostProcessors
 			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));
