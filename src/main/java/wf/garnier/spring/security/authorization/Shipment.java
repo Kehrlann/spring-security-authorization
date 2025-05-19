@@ -3,9 +3,6 @@ package wf.garnier.spring.security.authorization;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authorization.method.HandleAuthorizationDenied;
-
 class Shipment {
 
 	private final UUID id;
@@ -27,8 +24,6 @@ class Shipment {
 		return id;
 	}
 
-	@PreAuthorize("hasRole('admin')")
-	@HandleAuthorizationDenied(handlerClass = RedactedAuthorizationHandler.class)
 	public String getAddress() {
 		return address;
 	}
