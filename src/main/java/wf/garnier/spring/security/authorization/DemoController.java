@@ -30,13 +30,7 @@ class DemoController {
 	@GetMapping("/private")
 	public String privatePage(@AuthenticationPrincipal DemoUser user, Model model) {
 		model.addAttribute("name", user.getEmail());
-		try {
-			var shipmentCount = shipmentRepository.count();
-			model.addAttribute("shipmentCount", shipmentCount);
-		}
-		catch (Exception _) {
-
-		}
+        model.addAttribute("shipmentCount", shipmentRepository.count());
 		return "private";
 	}
 

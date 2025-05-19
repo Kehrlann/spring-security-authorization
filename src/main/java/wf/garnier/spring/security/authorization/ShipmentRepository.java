@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authorization.method.AuthorizeReturnObject;
+import org.springframework.security.authorization.method.HandleAuthorizationDenied;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +28,8 @@ class ShipmentRepository {
 	}
 
 	@PreAuthorize("hasRole('admin')")
-	public int count() {
+	@HandleAuthorizationDenied(handlerClass = NullAuthorizationHandler.class)
+	public Integer count() {
 		return shipments.size();
 	}
 
