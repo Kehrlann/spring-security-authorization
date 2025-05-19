@@ -10,6 +10,12 @@ Anti-goals:
 
 - Specific integrations (e.g. OpenFGA)
 
+## TODO
+
+- Have a fragment to showcase user information
+- RC1
+- Path variable make it smoother
+
 ## Thoughts:
 
 What's the story?
