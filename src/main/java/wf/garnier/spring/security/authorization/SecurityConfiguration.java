@@ -7,6 +7,7 @@ import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -23,6 +24,17 @@ import org.springframework.security.web.access.intercept.RequestAuthorizationCon
 @EnableWebSecurity
 @EnableMethodSecurity
 class SecurityConfiguration {
+
+	@Bean
+	@Order(1)
+	SecurityFilterChain localhostFilterChain(HttpSecurity http) throws Exception {
+		return http
+				.securityMatcher("/localhost/**")
+				.authorizeHttpRequests(auth -> {
+					auth.anyRequest().access((_, reqCtx) -> new AuthorizationDecision(reqCtx.getRequest().getServerName().equals("localhost")));
+				})
+				.build();
+	}
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -58,10 +70,6 @@ class SecurityConfiguration {
 					return new AuthorizationDecision(true);
 				}
 				return new AuthorizationDecision(false);
-			});
-
-			auth.requestMatchers("/localhost").access((authSupplier, reqCtx) -> {
-				return new AuthorizationDecision(reqCtx.getRequest().getServerName().equals("localhost"));
 			});
 			auth.anyRequest().authenticated();
 		}).formLogin(formLogin -> {

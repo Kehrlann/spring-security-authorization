@@ -306,7 +306,7 @@ class AuthorizationApplicationTests {
 				return request;
 			}).exchange();
 
-			assertThat(response).hasStatus(HttpStatus.UNAUTHORIZED);
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}
 
 	}
