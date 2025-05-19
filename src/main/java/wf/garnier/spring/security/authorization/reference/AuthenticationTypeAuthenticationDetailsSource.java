@@ -1,10 +1,10 @@
-package wf.garnier.spring.security.authorization;
+package wf.garnier.spring.security.authorization.reference;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 
-public class AuthenticationTypeAuthenticationDetailsSource implements
+class AuthenticationTypeAuthenticationDetailsSource implements
 		AuthenticationDetailsSource<HttpServletRequest, AuthenticationTypeAuthenticationDetailsSource.AuthenticationType> {
 
 	private final AuthenticationType type;
@@ -18,7 +18,7 @@ public class AuthenticationTypeAuthenticationDetailsSource implements
 		return this.type;
 	}
 
-	public enum AuthenticationType {
+	enum AuthenticationType {
 
 		HTTP_BASIC, FORM_LOGIN
 
