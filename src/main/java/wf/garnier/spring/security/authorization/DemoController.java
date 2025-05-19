@@ -22,7 +22,7 @@ class DemoController {
 		this.demoUserDetailsService = demoUserDetailsService;
 	}
 
-	@GetMapping("/")
+	@GetMapping({ "/", "/http-basic" })
 	public String index() {
 		return "index";
 	}
@@ -30,7 +30,7 @@ class DemoController {
 	@GetMapping("/private")
 	public String privatePage(@AuthenticationPrincipal DemoUser user, Model model) {
 		model.addAttribute("name", user.getEmail());
-        model.addAttribute("shipmentCount", shipmentRepository.count());
+		model.addAttribute("shipmentCount", shipmentRepository.count());
 		return "private";
 	}
 

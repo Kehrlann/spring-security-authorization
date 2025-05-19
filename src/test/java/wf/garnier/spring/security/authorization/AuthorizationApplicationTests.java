@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -74,7 +76,7 @@ class AuthorizationApplicationTests {
 
 		@Test
 		void privatePageAnonymous() {
-			var response = mvc.get().uri("/private").exchange();
+			var response = mvc.get().uri("/private").accept(MediaType.TEXT_HTML).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
 		}
@@ -165,7 +167,7 @@ class AuthorizationApplicationTests {
 
 		@Test
 		void corpAnonymous() {
-			var response = mvc.get().uri("/corp").exchange();
+			var response = mvc.get().uri("/corp").accept(MediaType.TEXT_HTML).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
 		}
@@ -220,7 +222,7 @@ class AuthorizationApplicationTests {
 
 		@Test
 		void shipmentsAnonymous() {
-			var response = mvc.get().uri("/shipments").exchange();
+			var response = mvc.get().uri("/shipments").accept(MediaType.TEXT_HTML).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
 		}
@@ -257,9 +259,29 @@ class AuthorizationApplicationTests {
 
 		@Test
 		void methodProfileAnonymous() {
-			var response = mvc.get().uri("/method-security/profile/daniel").exchange();
+			var response = mvc.get().uri("/method-security/profile/daniel").accept(MediaType.TEXT_HTML).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
+		}
+
+	}
+
+	@Nested
+	class HttpBasic {
+
+		@Test
+		void httpBasicOk() {
+			var response = mvc.get().uri("/http-basic").with(httpBasic("daniel", "password")).exchange();
+
+			assertThat(response).hasStatus(HttpStatus.OK);
+		}
+
+		@Test
+		@WithUserDetails(value = "daniel")
+		void httpBasicDenied() {
+			var response = mvc.get().uri("/http-basic").exchange();
+
+			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}
 
 	}

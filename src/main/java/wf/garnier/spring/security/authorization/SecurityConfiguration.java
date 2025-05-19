@@ -51,8 +51,23 @@ class SecurityConfiguration {
 						|| u.getEmail().domain().equals("example.com");
 				return new AuthorizationDecision(isCorp);
 			});
+			auth.requestMatchers("/http-basic").access((authSupplier, reqCtx) -> {
+				var actual = authSupplier.get();
+				if (AuthenticationTypeAuthenticationDetailsSource.AuthenticationType.HTTP_BASIC
+					.equals(actual.getDetails())) {
+					return new AuthorizationDecision(true);
+				}
+				return new AuthorizationDecision(false);
+			});
 			auth.anyRequest().authenticated();
-		}).formLogin(formLogin -> formLogin.defaultSuccessUrl("/private")).build();
+		}).formLogin(formLogin -> {
+			formLogin.defaultSuccessUrl("/private");
+			formLogin.authenticationDetailsSource(new AuthenticationTypeAuthenticationDetailsSource(
+					AuthenticationTypeAuthenticationDetailsSource.AuthenticationType.FORM_LOGIN));
+		}).httpBasic(httpBasic -> {
+			httpBasic.authenticationDetailsSource(new AuthenticationTypeAuthenticationDetailsSource(
+					AuthenticationTypeAuthenticationDetailsSource.AuthenticationType.HTTP_BASIC));
+		}).build();
 	}
 
 	@Bean
