@@ -60,4 +60,10 @@ class DemoController {
 		return "ok";
 	}
 
+	@GetMapping("/shipments")
+	public String shipments(Model model) {
+		model.addAttribute("shipments", shipmentRepository.findAll());
+		return "shipments";
+	}
+
 }

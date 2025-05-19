@@ -135,21 +135,21 @@ class AuthorizationApplicationTests {
 	class Corporate {
 
 		@Test
-		void methodCorporate() {
+		void corp() {
 			var response = mvc.get().uri("/corp").with(user("alice", "corp.example.com")).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("alice is part of Corp.");
 		}
 
 		@Test
-		void methodCorporateForbidden() {
+		void corpForbidden() {
 			var response = mvc.get().uri("/corp").with(user("bob", "ext.example.com")).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}
 
 		@Test
-		void methodCorporateRoot() {
+		void corpRoot() {
 			var response = mvc.get().uri("/corp").with(user("carol", "example.com")).exchange();
 
 			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("carol is part of Corp.");
@@ -157,14 +157,14 @@ class AuthorizationApplicationTests {
 
 		@Test
 		@WithMockUser("bob")
-		void methodCorporateRawUser() {
+		void corpRawUser() {
 			var response = mvc.get().uri("/corp").exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FORBIDDEN);
 		}
 
 		@Test
-		void methodCorporateAnonymous() {
+		void corpAnonymous() {
 			var response = mvc.get().uri("/corp").exchange();
 
 			assertThat(response).hasStatus(HttpStatus.FOUND).redirectedUrl().endsWith("/login");
