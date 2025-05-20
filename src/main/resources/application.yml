@@ -1,11 +1,6 @@
 spring:
   application:
     name: authorization-demo
-server:
-  servlet:
-    session:
-      persistent: true
-      store-dir: sessions/
 
 #logging:
 #  level:

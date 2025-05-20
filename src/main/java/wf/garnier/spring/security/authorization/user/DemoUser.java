@@ -1,7 +1,9 @@
 package wf.garnier.spring.security.authorization.user;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.CredentialsContainer;
@@ -9,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class DemoUser implements UserDetails, CredentialsContainer {
+public class DemoUser implements UserDetails, CredentialsContainer, Serializable {
 
 	private final String username;
 
@@ -59,7 +61,7 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 		return this.email;
 	}
 
-	public record Email(String address, String domain) {
+	public record Email(String address, String domain) implements Serializable {
 		public Email(String email) {
 			this(email.split("@")[0], email.split("@")[1]);
 		}
@@ -75,6 +77,25 @@ public class DemoUser implements UserDetails, CredentialsContainer {
 			.map(GrantedAuthority::getAuthority)
 			.map(r -> r.replace("ROLE_", ""))
 			.collect(Collectors.toList());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		DemoUser user = (DemoUser) o;
+		return Objects.equals(username, user.username) && Objects.equals(password, user.password)
+				&& Objects.equals(authorities, user.authorities) && Objects.equals(email, user.email);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Objects.hashCode(username);
+		result = 31 * result + Objects.hashCode(password);
+		result = 31 * result + Objects.hashCode(authorities);
+		result = 31 * result + Objects.hashCode(email);
+		return result;
 	}
 
 }
