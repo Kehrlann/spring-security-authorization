@@ -1,5 +1,8 @@
 # Checklist
 
-- License server
-- Docker compose up
-    - Seed OpenFGA
+- [ ] VPN
+- [ ] App running
+- [ ] Docker compose up
+  - [ ] Seed OpenFGA
+- [ ] Ensure logout Firefox + Safari
+
