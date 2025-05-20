@@ -46,29 +46,178 @@ Software Engineer @ Broadcom
 - <fluent-emoji-flat-envelope-with-arrow /> contact@garnier.wf
 
 ---
-layout: image-left
+layout: center
 ---
 
-# Intro to Spring Security
+<img src="intro-spring-security.png" style="margin-top: -40px; height: 400px;" />
 
 <br>
 
-Spring I/O 2024!
+### Intro to Spring Security
 
-On youtube!
+Spring I/O 2024! On youtube!
 
 
 ---
 
 # Spring Security Authorization
 
-1. Spring Security's authz model
+1. 🍃 A demo app
+1. 🛠️ Spring Security's authz tooling
     1. Request-level
     1. Method-level
     1. Object-level
-1. Authorization design
-    1. Designing your authorization
-    1. TBD: separate filter-chains?
+1. 🧠 Authorization design
+    1. Thinking about authorization
+    1. Information is key
+
+---
+
+# Spring Security Authorization
+
+1. **🍃 A demo app**
+1. 🛠️ Spring Security's authz tooling
+    1. Request-level
+    1. Method-level
+    1. Object-level
+1. 🧠 Authorization design
+    1. Thinking about authorization
+    1. Information is key
+
+---
+
+# A demo app
+
+&nbsp;
+
+You've done this before! Either request-level or method-level security.
+
+But don't forget **separation of concerns**: avoid security-related in your domain code
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. **🛠️ Spring Security's authz tooling**
+    1. **Request-level**
+    1. Method-level
+    1. Object-level
+1. 🧠 Authorization design
+    1. Thinking about authorization
+    1. Information is key
+
+---
+
+# Request-level authorizarion
+
+&nbsp;
+
+`http.authorizeHttpRequests(auth -> { /* ... */ });`
+
+&nbsp;
+
+Simple `.permitAll()`, `.authenticated()` and `.hasRole()`.
+
+&nbsp;
+
+For more interesting rules:
+
+`.access((authSupplier, reqContext) -> { /*...*/ });`
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. **🛠️ Spring Security's authz tooling**
+    1. Request-level
+    1. **Method-level**
+    1. Object-level
+1. 🧠 Authorization design
+    1. Thinking about authorization
+    1. Information is key
+
+---
+
+# Method-level authorizarion
+
+&nbsp;
+
+`@PreAuthorize(...)`, `@PostAuthorize(...)`, with SpEL expressions.
+
+Avoid complex expressions, and use a bean reference in the authorization methods: `@PreAuthorize("@authzService.authorize(...)")`. 
+
+Consider custom annotations.
+
+---
+
+# Method-level authorizarion
+
+&nbsp;
+
+Only use `@PostAuthorize(...)` when you can't filter the results. When possible, filter in your
+database / service, e.g.:<br> `SELECT ... WHERE owner.id == authenticationId`
+
+&nbsp;
+
+Enforce separation of concerns with `@HandleAuthorizationDenied(handlerClass = ...)`.
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. **🛠️ Spring Security's authz tooling**
+    1. Request-level
+    1. Method-level
+    1. **Object-level**
+1. 🧠 Authorization design
+    1. Thinking about authorization
+    1. Information is key
+
+---
+
+# Object-level authorization
+
+&nbsp;
+
+You can apply security to object methods.
+
+Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce those methods.
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. 🛠️ Spring Security's authz tooling
+    1. Request-level
+    1. Method-level
+    1. Object-level
+1. **🧠 Authorization design**
+    1. **Thinking about authorization**
+    1. Information is key
+
+---
+
+# Thinking about authorization
+
+Remember XACML?
+
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. 🛠️ Spring Security's authz tooling
+    1. Request-level
+    1. Method-level
+    1. Object-level
+1. **🧠 Authorization design**
+    1. Thinking about authorization
+    1. **Information is key**
 
 ---
 
