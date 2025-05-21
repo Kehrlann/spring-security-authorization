@@ -63,6 +63,7 @@ class AuthorizationApplicationTests {
 		void privatePage() {
 			var response = mvc.get().uri("/private").exchange();
 
+			assertThat(response).hasStatus(HttpStatus.OK).bodyText().contains("daniel@example.com");
 			assertThat(response).hasStatus(HttpStatus.OK).bodyText().doesNotContain("Shipment information");
 		}
 

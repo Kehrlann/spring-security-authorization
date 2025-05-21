@@ -4,6 +4,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
+}
+
+nav {
+    line-height: 2rem;
+    background: #95eaff;
+    width: 100%;
+    text-align: center;
+    &.admin {
+        background-color: #d15700;
+        color: white;
+    }
 }
 
 h1 {

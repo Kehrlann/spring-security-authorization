@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<th:block th:fragment="nav"
+     th:with="principal=${T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getPrincipal()}"
+>
+    <nav
+            th:if="${principal != null && principal.class.name == 'wf.garnier.spring.security.authorization.user.DemoUser'}"
+            th:attr="class=${principal.getRoles().contains('admin') ? 'admin' : ''}"
+    >
+        <span th:text="${principal.getUsername()}"></span> - <span th:text="${principal.getEmail()}"></span> - <span
+            th:text="${principal.getRoles()}"></span>
+    </nav>
+</th:block>
+
+</body>
+
+</html>

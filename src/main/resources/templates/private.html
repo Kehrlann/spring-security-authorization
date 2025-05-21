@@ -7,6 +7,7 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
+<nav th:replace="_auth-header :: nav"></nav>
 <h1>VIP section 🥳🎉🎊</h1>
 <p>Hello, ~[
     <th:block th:text="${name}"/>

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
+<nav th:replace="_auth-header :: nav"></nav>
 <body>
 <h1><th:block th:text="${pageName}"></th:block> page</h1>
 <p th:if="${value} != null" th:text="${value}"></p>
