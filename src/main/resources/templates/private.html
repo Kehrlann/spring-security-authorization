@@ -23,13 +23,13 @@
             <pre class="inline bold">@corp.example.com</pre>
             email address
         </li>
+        <li><a href="/localhost">/localhost</a> - must access from localhost</li>
         <li><a href="/shipments">/shipments</a> - must have a
             <pre class="inline bold">@corp.example.com</pre>
             email address
         </li>
         <li><a href="/method-security/profile/josh">/method-security/profile/josh</a> - must have same email domain</li>
         <li><a href="/http-basic">/http-basic</a> - must login with HTTP basic</li>
-        <li><a href="/localhost">/localhost</a> - must access from localhost</li>
     </ul>
     <th:block th:if="${shipmentCount != null}">
         <h2>Shipment information (must have role "admin")</h2>
