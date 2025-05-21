@@ -53,7 +53,7 @@ layout: center
 
 <br>
 
-### Intro to Spring Security
+### Spring Security: Architecture Principles
 
 Spring I/O 2024! On youtube!
 
@@ -94,7 +94,7 @@ You've done this before! Either request-level or method-level security.
 
 &nbsp;
 
-**Separation of concerns**: avoid security-related in your domain code
+**Separation of concerns**: avoid security-related code in your domain code
 
 ---
 
@@ -175,10 +175,9 @@ Consider custom annotations for de-duplication:
 
 &nbsp;
 
-Only use `@PostAuthorize(...)` when you can't filter the results.
-
-When possible, filter in your
-database / service, e.g.:<br> `SELECT ... WHERE owner.id == authenticationId`
+Even with `@PostAuthorize(...)` or `@PostFilter(...)`
+<br>DO filter in your database / service, e.g.:
+<br>`SELECT ... WHERE owner.id == authenticationId`
 
 &nbsp;
 
