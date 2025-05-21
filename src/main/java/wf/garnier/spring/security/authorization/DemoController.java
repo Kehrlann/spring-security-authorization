@@ -22,7 +22,7 @@ class DemoController {
 		this.demoUserDetailsService = demoUserDetailsService;
 	}
 
-	@GetMapping({ "/", "/http-basic", "/localhost" })
+	@GetMapping("/")
 	public String index() {
 		return "index";
 	}
@@ -59,5 +59,20 @@ class DemoController {
 		model.addAttribute("shipments", shipmentRepository.findAll());
 		return "shipments";
 	}
+
+	@GetMapping("/localhost")
+	public String localhost(Model model) {
+		model.addAttribute("pageName", "Localhost");
+		model.addAttribute("value", "This page is only for 🏠Localhost");
+		return "ok";
+	}
+
+	@GetMapping("/http-basic")
+	public String httpBasic(Model model) {
+		model.addAttribute("pageName", "HTTP Basic");
+		model.addAttribute("value", "This page is only for 🤖 HTTP Basic");
+		return "ok";
+	}
+
 
 }
