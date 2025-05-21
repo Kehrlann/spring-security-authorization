@@ -273,6 +273,24 @@ image: xacml-2.png
 
 ---
 
+# Information is key
+
+&nbsp;
+
+Context matters!
+
+Dedicated `SecurityFilterChain`s with different rules bring the complexity down:
+- Simpler information gathering
+- Simpler rules
+
+<v-click>
+
+_PSA: Don't create 65 `SecurityFilterChain`s._
+
+</v-click>
+
+---
+
 ## References
 
 &nbsp;
