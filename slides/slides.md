@@ -49,7 +49,7 @@ Software Engineer @ Broadcom
 layout: center
 ---
 
-<img src="intro-spring-security.png" style="margin-top: -40px; height: 400px;" />
+<img src="intro-spring-security.png" style="height: 400px;" />
 
 <br>
 
@@ -92,7 +92,9 @@ Spring I/O 2024! On youtube!
 
 You've done this before! Either request-level or method-level security.
 
-But don't forget **separation of concerns**: avoid security-related in your domain code
+&nbsp;
+
+**Separation of concerns**: avoid security-related in your domain code
 
 ---
 
@@ -117,13 +119,26 @@ But don't forget **separation of concerns**: avoid security-related in your doma
 
 &nbsp;
 
-Simple `.permitAll()`, `.authenticated()` and `.hasRole()`.
+Simple rules:
+- `.permitAll()`, `.denyAll()`, `.authenticated()`, ...
+- `.hasRole()`, `.hasAuthority()`, ...
+
+---
+
+# Request-level authorizarion
 
 &nbsp;
 
 For more interesting rules:
-
+<br>
 `.access((authSupplier, reqContext) -> { /*...*/ });`
+
+Composability:
+<br>
+`.access(AuthorizationManagers.anyOf(...))`
+
+⚠️ Does not read the body of the request
+
 
 ---
 
@@ -144,11 +159,15 @@ For more interesting rules:
 
 &nbsp;
 
-`@PreAuthorize(...)`, `@PostAuthorize(...)`, with SpEL expressions.
+`@PreAuthorize(...)`, `@PostAuthorize(...)`, `@PostFilter(...)` with SpEL expressions.
 
-Avoid complex expressions, and use a bean reference in the authorization methods: `@PreAuthorize("@authzService.authorize(...)")`. 
+Avoid complex expressions, and use a bean reference:
+<br>
+`@PreAuthorize("@authzService.authorize(...)")`
 
-Consider custom annotations.
+Consider custom annotations for de-duplication:
+<br>
+`@AllowedDomains(domains = { "corp.example.com" })`
 
 ---
 
@@ -156,12 +175,14 @@ Consider custom annotations.
 
 &nbsp;
 
-Only use `@PostAuthorize(...)` when you can't filter the results. When possible, filter in your
+Only use `@PostAuthorize(...)` when you can't filter the results.
+
+When possible, filter in your
 database / service, e.g.:<br> `SELECT ... WHERE owner.id == authenticationId`
 
 &nbsp;
 
-Enforce separation of concerns with `@HandleAuthorizationDenied(handlerClass = ...)`.
+Enforce separation of concerns with `@HandleAuthorizationDenied(handlerClass = ...)`
 
 ---
 
@@ -184,6 +205,8 @@ Enforce separation of concerns with `@HandleAuthorizationDenied(handlerClass = .
 
 You can apply security to object methods.
 
+&nbsp;
+
 Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce those methods.
 
 ---
@@ -203,7 +226,23 @@ Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce t
 
 # Thinking about authorization
 
-Remember XACML?
+<br>
+
+<br>
+
+<br>
+
+### Remember XACML?
+
+---
+layout: image
+image: xacml-1.png
+---
+
+---
+layout: image
+image: xacml-2.png
+---
 
 
 ---
@@ -221,16 +260,25 @@ Remember XACML?
 
 ---
 
+# Information is key
+
+&nbsp;
+
+- What information is relevant for the security decision?
+- Where can you capture or transform it?
+- Consider:
+    - `AuthenticationConverter` works on HttpServletRequest
+    - `AuthenticationProvider` works on Authentication
+    - `AuthenticationDetailsSource` also HttpServletRequest
+    - Last resort: `Filter`
+
+---
+
 ## References
 
 &nbsp;
 
-#### **<logos-github-icon /> https://github.com/Kehrlann/spring-boot-testing**
-
-<!-- qrencode -s 9 -m 2 -o qr-code.png https://mobile.devoxx.com/events/devoxxuk25/rate-talk/2999 -->
-<div style="float:right; margin-right: 50px; text-align: center;">
-  <img src="/qr-code.png" style="margin-bottom: -45px; height: 300px;" >
-</div>
+#### <logos-github-icon /> https://github.com/Kehrlann/spring-security-authorization
 
 <br>
 
