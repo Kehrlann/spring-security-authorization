@@ -114,20 +114,64 @@ layout: image
 image: security-filter-chain.png
 ---
 
+---
 
+# Authentication objects
+
+&nbsp;
+
+`Authentication` objects represent logged-in users.
+
+Contains:
+- `principal` == identity
+- `authorities` == roles, permissions
+
+Stored in the `SecurityContext`.
+
+---
+layout: image-right
+image: security-context.png
+backgroundSize: contain
+---
+
+# SecurityContext
+
+- Thread-local
+- Not propagated to child threads
+- Cleared after requests is processed
 
 ---
 
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. **🛠️ Spring Security's authz tooling**
-    1. **Request-level**
-    1. Method-level
-    1. Object-level
+1. 🤓 Quick refresher: spring security basics
+1. 🛠️ **Spring Security's authz tooling**
 1. 🧠 Authorization design
-    1. Thinking about authorization
-    1. Information is key
+
+---
+
+# Spring Security authz tooling
+
+&nbsp;
+
+Three levels to apply tooling:
+
+1. Request-level
+1. Method-level
+1. Object-level
+
+---
+
+# Spring Security authz tooling
+
+&nbsp;
+
+Three levels to apply tooling:
+
+1. **Request-level**
+1. Method-level
+1. Object-level
 
 ---
 
@@ -159,19 +203,17 @@ Composability:
 
 ⚠️ Does not read the body of the request
 
-
 ---
 
-# Spring Security Authorization
+# Spring Security authz tooling
 
-1. 🍃 A demo app
-1. **🛠️ Spring Security's authz tooling**
-    1. Request-level
-    1. **Method-level**
-    1. Object-level
-1. 🧠 Authorization design
-    1. Thinking about authorization
-    1. Information is key
+&nbsp;
+
+Three levels to apply tooling:
+
+1. Request-level
+1. **Method-level**
+1. Object-level
 
 ---
 
@@ -185,9 +227,19 @@ Avoid complex expressions, and use a bean reference:
 <br>
 `@PreAuthorize("@authzService.authorize(...)")`
 
+These annotations are not repeatable!
+
+---
+
+# Method-level authorizarion
+
+&nbsp;
+
 Consider custom annotations for de-duplication:
 <br>
 `@AllowedDomains(domains = { "corp.example.com" })`
+
+It requires and `AnnotationTemplateExpressionDefaults` bean.
 
 ---
 
@@ -205,16 +257,15 @@ Enforce separation of concerns with `@HandleAuthorizationDenied(handlerClass = .
 
 ---
 
-# Spring Security Authorization
+# Spring Security authz tooling
 
-1. 🍃 A demo app
-1. **🛠️ Spring Security's authz tooling**
-    1. Request-level
-    1. Method-level
-    1. **Object-level**
-1. 🧠 Authorization design
-    1. Thinking about authorization
-    1. Information is key
+&nbsp;
+
+Three levels to apply tooling:
+
+1. Request-level
+1. Method-level
+1. **Object-level**
 
 ---
 
@@ -226,20 +277,34 @@ You can apply security to object methods.
 
 &nbsp;
 
-Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce those methods.
+Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce those annotations.
+
+&nbsp;
+
 
 ---
 
 # Spring Security Authorization
 
 1. 🍃 A demo app
+1. 🤓 Quick refresher: spring security basics
 1. 🛠️ Spring Security's authz tooling
-    1. Request-level
-    1. Method-level
-    1. Object-level
-1. **🧠 Authorization design**
-    1. **Thinking about authorization**
-    1. Information is key
+1. ⚙️ **Authorization internals**
+1. 🧠 Authorization design
+
+---
+
+TODO
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. 🤓 Quick refresher: spring security basics
+1. 🛠️ Spring Security's authz tooling
+1. ⚙️ Authorization internals
+1. 🧠 **Authorization design**
 
 ---
 
