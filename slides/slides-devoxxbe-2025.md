@@ -77,6 +77,7 @@ Spring I/O 2024! On YouTube!
 1. 🍃 A demo app
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
+1. ⚙️ Authorization internals
 1. 🧠 Authorization design
 
 ---
@@ -86,6 +87,7 @@ Spring I/O 2024! On YouTube!
 1. 🍃 **A demo app**
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
+1. ⚙️ Authorization internals
 1. 🧠 Authorization design
 
 ---
@@ -147,6 +149,7 @@ backgroundSize: contain
 1. 🍃 A demo app
 1. 🤓 Quick refresher: spring security basics
 1. 🛠️ **Spring Security's authz tooling**
+1. ⚙️ Authorization internals
 1. 🧠 Authorization design
 
 ---
@@ -293,8 +296,29 @@ Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce t
 1. 🧠 Authorization design
 
 ---
+layout: image
+image: authz-internals-1.png
+---
 
-TODO
+---
+layout: image
+image: authz-internals-2.png
+---
+
+---
+layout: image
+image: authz-internals-3.png
+---
+
+---
+layout: image
+image: authz-internals-4.png
+---
+
+---
+layout: image
+image: authz-internals-5.png
+---
 
 ---
 
