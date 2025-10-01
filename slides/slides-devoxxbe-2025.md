@@ -421,3 +421,36 @@ class: end
 
 # **Merci 😊**
 
+---
+layout: cover
+---
+
+# Appendix
+
+---
+layout: image-left
+image: dimitris-by-daniel.jpg
+class: smaller
+---
+
+## **Meet Dimitris!**
+
+<br>
+
+Dimitris Doutsiopoulos, offical Devoxx photographer!
+
+<br>
+
+- <logos-firefox /> https://ddphotography.gr
+- <logos-instagram-icon /> @dimitrisdoutsiopoulos
+- <logos-bluesky /> @ddoutsiopoulos
+
+---
+layout: image
+image: daniel-intro.jpg
+---
+
+---
+layout: image
+image: dimitris-meta.jpg
+---
