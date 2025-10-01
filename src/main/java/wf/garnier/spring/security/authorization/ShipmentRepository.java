@@ -34,6 +34,7 @@ class ShipmentRepository {
 		return shipments.size();
 	}
 
+	@PreAuthorize("@openFgaClient.checkPermission('user:' + principal.getEmail(), 'viewer', 'shipment:' + #id)")
 	public Shipment findById(int id) {
 		return shipments.stream().filter(s -> s.getId() == id).findFirst().orElse(null);
 	}
