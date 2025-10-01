@@ -60,6 +60,12 @@ class DemoController {
 		return "shipments";
 	}
 
+	@GetMapping("/shipments/{id}")
+	public String shipments(@PathVariable Integer id, Model model) {
+		model.addAttribute("shipments", shipmentRepository.findById(id));
+		return "shipments";
+	}
+
 	@GetMapping("/localhost")
 	public String localhost(Model model) {
 		model.addAttribute("pageName", "Localhost");
