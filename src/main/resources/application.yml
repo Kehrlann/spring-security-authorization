@@ -2,6 +2,10 @@ spring:
   application:
     name: authorization-demo
 
+server:
+  # faster reboot
+  address: 127.0.0.1
+
 #logging:
 #  level:
 #    org.springframework.security: TRACE
