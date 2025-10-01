@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.1",
+  "type_definitions": [
+    {
+      "type": "user",
+      "relations": {},
+      "metadata": null
+    },
+    {
+      "type": "org",
+      "relations": {
+        "admin": {
+          "union": {
+            "child": [
+              {
+                "this": {}
+              },
+              {
+                "tupleToUserset": {
+                  "computedUserset": {
+                    "relation": "admin"
+                  },
+                  "tupleset": {
+                    "relation": "parent"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "member": {
+          "this": {}
+        },
+        "parent": {
+          "this": {}
+        }
+      },
+      "metadata": {
+        "relations": {
+          "admin": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "member": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "parent": {
+            "directly_related_user_types": [
+              {
+                "type": "org"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "shipment",
+      "relations": {
+        "org": {
+          "this": {}
+        },
+        "viewer": {
+          "union": {
+            "child": [
+              {
+                "tupleToUserset": {
+                  "computedUserset": {
+                    "relation": "member"
+                  },
+                  "tupleset": {
+                    "relation": "org"
+                  }
+                }
+              },
+              {
+                "tupleToUserset": {
+                  "computedUserset": {
+                    "relation": "admin"
+                  },
+                  "tupleset": {
+                    "relation": "org"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "org": {
+            "directly_related_user_types": [
+              {
+                "type": "org"
+              }
+            ]
+          },
+          "viewer": {
+            "directly_related_user_types": []
+          }
+        }
+      }
+    }
+  ]
+}

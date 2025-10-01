@@ -1,0 +1,110 @@
+[
+  {
+    "key": {
+      "user": "user:josh@example.com",
+      "relation": "admin",
+      "object": "org:system",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:49:04.840056425Z"
+  },
+  {
+    "key": {
+      "user": "user:daniel@example.com",
+      "relation": "member",
+      "object": "org:example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:49:50.378560585Z"
+  },
+  {
+    "key": {
+      "user": "user:josh@example.com",
+      "relation": "member",
+      "object": "org:example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:49:50.378560585Z"
+  },
+  {
+    "key": {
+      "user": "user:alice@corp.example.com",
+      "relation": "member",
+      "object": "org:corp.example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:50:50.219836252Z"
+  },
+  {
+    "key": {
+      "user": "user:bob@ext.example.com",
+      "relation": "member",
+      "object": "org:ext.example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:50:50.219836252Z"
+  },
+  {
+    "key": {
+      "user": "org:system",
+      "relation": "parent",
+      "object": "org:example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:52:01.070481924Z"
+  },
+  {
+    "key": {
+      "user": "org:example.com",
+      "relation": "org",
+      "object": "shipment:1",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:53:24.618884629Z"
+  },
+  {
+    "key": {
+      "user": "org:example.com",
+      "relation": "org",
+      "object": "shipment:2",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:53:24.618884629Z"
+  },
+  {
+    "key": {
+      "user": "org:example.com",
+      "relation": "org",
+      "object": "shipment:3",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:53:24.618884629Z"
+  },
+  {
+    "key": {
+      "user": "org:corp.example.com",
+      "relation": "org",
+      "object": "shipment:4",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:53:24.618884629Z"
+  },
+  {
+    "key": {
+      "user": "org:system",
+      "relation": "parent",
+      "object": "org:example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:54:14.884544472Z"
+  },
+  {
+    "key": {
+      "user": "org:system",
+      "relation": "parent",
+      "object": "org:corp.example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:54:27.348898047Z"
+  }
+]

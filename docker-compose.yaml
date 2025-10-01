@@ -1,0 +1,16 @@
+name: spring-security-authorization
+
+services:
+  open-fga:
+    image: openfga/openfga # todo: fix port
+    ports:
+      - target: 9000
+        published: 9000
+      - target: 8081
+        published: 8081
+      - target: 3000
+        published: 3000
+    command:
+      - run
+    environment:
+      OPENFGA_HTTP_ADDR: 0.0.0.0:9000

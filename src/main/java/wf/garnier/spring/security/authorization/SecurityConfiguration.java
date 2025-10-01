@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.web.client.RestClient;
 
 @Configuration
 @EnableWebSecurity
@@ -95,5 +96,10 @@ class SecurityConfiguration {
 	AnnotationTemplateExpressionDefaults annotationTemplateExpressionDefaults() {
 		return new AnnotationTemplateExpressionDefaults();
 	}
+
+    @Bean
+    OpenFgaClient openFgaClient(RestClient.Builder builder) {
+        return OpenFgaClient.create(builder);
+    }
 
 }
