@@ -107,14 +107,9 @@ You've done this before! Some authentication (login), and then some authorizatio
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. 🤓 **Quick refresher: spring security basics**
+1. 🤓 **Quick refresher: authentication basics**
 1. 🛠️ Spring Security's authz tooling
 1. 🧠 Authorization design
-
----
-layout: image
-image: security-filter-chain.png
----
 
 ---
 
@@ -147,7 +142,7 @@ backgroundSize: contain
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. 🤓 Quick refresher: spring security basics
+1. 🤓 Quick refresher: authentication basics
 1. 🛠️ **Spring Security's authz tooling**
 1. ⚙️ Authorization internals
 1. 🧠 Authorization design
@@ -196,14 +191,19 @@ Simple rules:
 
 &nbsp;
 
-For more interesting rules:
-<br>
-`.access((authSupplier, reqContext) -> { /*...*/ });`
 
-Composability:
-<br>
-`.access(AuthorizationManagers.anyOf(...))`
+```java
+// More interesting rules:
+.access((authSuppl, reqCtx) -> {
+    // ...
+    return new AuthorizationDecision(true);
+});
 
+// Composability:
+.access(AuthorizationManagers.anyOf(...));
+```
+
+<br>
 ⚠️ Does not read the body of the request
 
 ---
@@ -290,10 +290,15 @@ Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce t
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. 🤓 Quick refresher: spring security basics
+1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ **Authorization internals**
 1. 🧠 Authorization design
+
+---
+layout: image
+image: security-filter-chain.png
+---
 
 ---
 layout: image
@@ -325,7 +330,7 @@ image: authz-internals-5.png
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. 🤓 Quick refresher: spring security basics
+1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ Authorization internals
 1. 🧠 **Authorization design**
@@ -406,12 +411,36 @@ _PSA: Don't create 65 `SecurityFilterChain`s._
 
 #### <logos-github-icon /> https://github.com/Kehrlann/spring-security-authorization
 
+<!-- qrencode -s 9 -m 2 -o qr-code.png https://mobile.devoxx.com/events/devoxxuk25/rate-talk/2999 -->
+<div style="float:right; margin-right: 50px; text-align: center;">
+    <a href="https://openfeedback.io/vctpDk4vX1kUwUk2eh2M/2025-09-17/vSmE0dYwPcXMNnw047ca" target="_blank">
+        <img src="/qr-code.png" style="margin-bottom: -45px; height: 300px;" >
+    </a>
+</div>
+
 <br>
 
 - <logos-bluesky /> @garnier.wf
 - <logos-firefox /> https://garnier.wf/
 - <fluent-emoji-flat-envelope-with-arrow /> contact@garnier.wf
 
+---
+layout: two-cols
+---
+
+<logos-youtube-icon /> Spring Security intro
+
+<a href="https://www.youtube.com/watch?v=HyoLl3VcRFY" target="_blank">
+    <img src="/qr-code-youtube.png" style="margin-top: 20px; margin-bottom: -45px; height: 300px;" >
+</a>
+
+::right::
+
+<div style="margin-left: 70px; text-align: center;">
+    <a href="https://go.bsky.app/TLqBjSF" target="_blank">
+        <img src="/qr-code-bsky-starter.png" style="height: 400px;" >
+    </a>
+</div>
 
 ---
 layout: image

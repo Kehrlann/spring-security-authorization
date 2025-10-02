@@ -1,5 +1,7 @@
 :root {
   --slidev-slide-container-background: white;
+    --slidev-code-font-size: .8rem;
+    --slidev-code-line-height: 1rem;
 }
 
 html {
