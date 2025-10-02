@@ -2,6 +2,7 @@ package wf.garnier.spring.security.authorization;
 
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
+import wf.garnier.spring.security.authorization.user.UserEmail;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,15 +29,15 @@ class DemoController {
 	}
 
 	@GetMapping("/private")
-	public String privatePage(@AuthenticationPrincipal DemoUser user, Model model) {
-		model.addAttribute("name", user.getEmail());
+	public String privatePage(@AuthenticationPrincipal UserEmail user, Model model) {
+		model.addAttribute("name", user.getUserEmail());
 		model.addAttribute("shipmentCount", shipmentRepository.count());
 		return "private";
 	}
 
 	@GetMapping("/admin")
-	public String adminPage(@AuthenticationPrincipal DemoUser user, Model model) {
-		model.addAttribute("name", user.getUsername());
+	public String adminPage(@AuthenticationPrincipal UserEmail user, Model model) {
+		model.addAttribute("name", user.getUserEmail());
 		return "admin";
 	}
 

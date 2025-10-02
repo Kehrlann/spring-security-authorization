@@ -13,7 +13,7 @@
     <dt>Username</dt>
     <dd th:text="${user.getUsername()}"></dd>
     <dt>Email</dt>
-    <dd th:text="${user.getEmail()}"></dd>
+    <dd th:text="${user.getUserEmail()}"></dd>
     <dt>Roles</dt>
     <dd>
         <ul th:each="role: ${user.getRoles()}">

@@ -7,10 +7,10 @@
      th:with="principal=${T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getPrincipal()}"
 >
     <nav
-            th:if="${principal != null && principal.class.name == 'wf.garnier.spring.security.authorization.user.DemoUser'}"
+            th:if="${principal != null && principal.class.name == 'wf.garnier.spring.security.authorization.user.UserEmail'}"
             th:attr="class=${principal.getRoles().contains('admin') ? 'admin' : ''}"
     >
-        <span th:text="${principal.getUsername()}"></span> - <span th:text="${principal.getEmail()}"></span> - <span
+        <span th:text="${principal.getUsername()}"></span> - <span th:text="${principal.getUserEmail()}"></span> - <span
             th:text="${principal.getRoles()}"></span>
     </nav>
 </th:block>

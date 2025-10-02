@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class DemoUser implements UserDetails, CredentialsContainer, Serializable {
+public class DemoUser implements UserEmail, UserDetails, CredentialsContainer, Serializable {
 
 	private final String username;
 
@@ -33,7 +33,7 @@ public class DemoUser implements UserDetails, CredentialsContainer, Serializable
 	DemoUser(DemoUser other) {
 		this.username = other.getUsername();
 		this.password = other.getPassword().replace("{noop}", "");
-		this.email = other.getEmail();
+		this.email = other.getUserEmail();
 		this.authorities = other.getAuthorities();
 	}
 
@@ -57,22 +57,11 @@ public class DemoUser implements UserDetails, CredentialsContainer, Serializable
 		this.password = null;
 	}
 
-	public Email getEmail() {
+	public Email getUserEmail() {
 		return this.email;
 	}
 
-	public record Email(String address, String domain) implements Serializable {
-		public Email(String email) {
-			this(email.split("@")[0], email.split("@")[1]);
-		}
-
-		@Override
-		public String toString() {
-			return "%s@%s".formatted(address, domain);
-		}
-	}
-
-	public List<String> getRoles() {
+    public List<String> getRoles() {
 		return this.authorities.stream()
 			.map(GrantedAuthority::getAuthority)
 			.map(r -> r.replace("ROLE_", ""))

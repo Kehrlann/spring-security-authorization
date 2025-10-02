@@ -1,24 +1,25 @@
 package wf.garnier.spring.security.authorization;
 
 import java.util.List;
-import java.util.function.Supplier;
+
+import wf.garnier.spring.security.authorization.user.DemoOidcUserService;
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
-import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authorization.AuthorizationManagers;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.web.client.RestClient;
 
 @Configuration
@@ -38,7 +39,11 @@ class SecurityConfiguration {
 	}
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, Environment environment) throws Exception {
+		if (environment.matchesProfiles("sso")) {
+			http.oauth2Login(Customizer.withDefaults());
+		}
+
 		return http.authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/").permitAll();
 			auth.requestMatchers("/css/*").permitAll();
@@ -60,8 +65,8 @@ class SecurityConfiguration {
 					return new AuthorizationDecision(false);
 				}
 
-				var isCorp = u.getEmail().domain().equals("corp.example.com")
-						|| u.getEmail().domain().equals("example.com");
+				var isCorp = u.getUserEmail().domain().equals("corp.example.com")
+						|| u.getUserEmail().domain().equals("example.com");
 				return new AuthorizationDecision(isCorp);
 			});
 			auth.requestMatchers("/http-basic").access((authSupplier, reqCtx) -> {
@@ -97,9 +102,14 @@ class SecurityConfiguration {
 		return new AnnotationTemplateExpressionDefaults();
 	}
 
+	@Bean
+	OpenFgaClient openFgaClient(RestClient.Builder builder) {
+		return OpenFgaClient.create(builder);
+	}
+
     @Bean
-    OpenFgaClient openFgaClient(RestClient.Builder builder) {
-        return OpenFgaClient.create(builder);
+    OidcUserService oidcUserService() {
+        return new DemoOidcUserService();
     }
 
 }

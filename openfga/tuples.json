@@ -19,6 +19,15 @@
   },
   {
     "key": {
+      "user": "user:admin@example.com",
+      "relation": "member",
+      "object": "org:example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:49:50.378560585Z"
+  },
+  {
+    "key": {
       "user": "user:josh@example.com",
       "relation": "member",
       "object": "org:example.com",
@@ -29,6 +38,15 @@
   {
     "key": {
       "user": "user:alice@corp.example.com",
+      "relation": "member",
+      "object": "org:corp.example.com",
+      "condition": null
+    },
+    "timestamp": "2025-10-01T12:50:50.219836252Z"
+  },
+  {
+    "key": {
+      "user": "user:carol@corp.example.com",
       "relation": "member",
       "object": "org:corp.example.com",
       "condition": null
