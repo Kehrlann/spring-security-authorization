@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class DemoUser implements UserEmail, UserDetails, CredentialsContainer, Serializable {
+public class DemoUser implements UserDetails, CredentialsContainer, Serializable {
 
 	private final String username;
 
