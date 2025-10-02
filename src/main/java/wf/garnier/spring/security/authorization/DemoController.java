@@ -1,10 +1,10 @@
 package wf.garnier.spring.security.authorization;
 
-import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
-import wf.garnier.spring.security.authorization.user.UserEmail;
+import wf.garnier.spring.security.authorization.user.DemoUser;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ class DemoController {
 
 	private final ShipmentRepository shipmentRepository;
 
-	private final DemoUserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 
-	DemoController(ShipmentRepository shipmentRepository, DemoUserDetailsService userDetailsService) {
+	DemoController(ShipmentRepository shipmentRepository, UserDetailsService userDetailsService) {
 		this.shipmentRepository = shipmentRepository;
 		this.userDetailsService = userDetailsService;
 	}
@@ -29,21 +29,21 @@ class DemoController {
 	}
 
 	@GetMapping("/private")
-	public String privatePage(@AuthenticationPrincipal UserEmail user, Model model) {
+	public String privatePage(@AuthenticationPrincipal DemoUser user, Model model) {
 		model.addAttribute("name", user.getUserEmail());
 		model.addAttribute("shipmentCount", shipmentRepository.count());
 		return "private";
 	}
 
 	@GetMapping({ "/admin", "/admin-mfa" })
-	public String adminPage(@AuthenticationPrincipal UserEmail user, Model model) {
+	public String adminPage(@AuthenticationPrincipal DemoUser user, Model model) {
 		model.addAttribute("name", user.getUserEmail());
 		return "admin";
 	}
 
 	@GetMapping({ "/profile/{username}", "/method-security/profile/{username}" })
 	public String profile(@PathVariable String username, Model model) {
-		var user = userDetailsService.findUser(username);
+		var user = userDetailsService.loadUserByUsername(username);
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -88,7 +88,7 @@ class DemoController {
 
 	@PostMapping("/password")
 	public String updatePassword(Authentication authentication, String newPassword, Model model) {
-		userDetailsService.updatePassword(authentication.getName(), newPassword);
+//		userDetailsService.updatePassword(authentication.getName(), newPassword);
 		model.addAttribute("success", true);
 		return "redirect:/private";
 	}
