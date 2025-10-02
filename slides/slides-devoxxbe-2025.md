@@ -79,6 +79,7 @@ Spring I/O 2024! On YouTube!
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ Authorization internals
 1. 🧠 Authorization design
+1. 🧪 A word on testing
 
 ---
 
@@ -89,6 +90,7 @@ Spring I/O 2024! On YouTube!
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ Authorization internals
 1. 🧠 Authorization design
+1. 🧪 A word on testing
 
 ---
 
@@ -110,6 +112,7 @@ You've done this before! Some authentication (login), and then some authorizatio
 1. 🤓 **Quick refresher: authentication basics**
 1. 🛠️ Spring Security's authz tooling
 1. 🧠 Authorization design
+1. 🧪 A word on testing
 
 ---
 
@@ -146,6 +149,7 @@ backgroundSize: contain
 1. 🛠️ **Spring Security's authz tooling**
 1. ⚙️ Authorization internals
 1. 🧠 Authorization design
+1. 🧪 A word on testing
 
 ---
 
@@ -294,6 +298,7 @@ Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce t
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ **Authorization internals**
 1. 🧠 Authorization design
+1. 🧪 A word on testing
 
 ---
 layout: image
@@ -334,6 +339,7 @@ image: authz-internals-5.png
 1. 🛠️ Spring Security's authz tooling
 1. ⚙️ Authorization internals
 1. 🧠 **Authorization design**
+1. 🧪 A word on testing
 
 ---
 
@@ -356,20 +362,6 @@ image: xacml-1.png
 layout: image
 image: xacml-2.png
 ---
-
-
----
-
-# Spring Security Authorization
-
-1. 🍃 A demo app
-1. 🛠️ Spring Security's authz tooling
-    1. Request-level
-    1. Method-level
-    1. Object-level
-1. **🧠 Authorization design**
-    1. Thinking about authorization
-    1. **Information is key**
 
 ---
 
@@ -402,6 +394,17 @@ Dedicated `SecurityFilterChain`s with different rules bring the complexity down:
 _PSA: Don't create 65 `SecurityFilterChain`s._
 
 </v-click>
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. 🤓 Quick refresher: authentication basics
+1. 🛠️ Spring Security's authz tooling
+1. ⚙️ Authorization internals
+1. 🧠 Authorization design
+1. 🧪 **A word on testing**
 
 ---
 
