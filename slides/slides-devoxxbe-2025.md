@@ -443,6 +443,20 @@ layout: two-cols
 </div>
 
 ---
+layout: two-cols
+---
+
+More Daniel, on Thursday!
+
+<img src="/devoxx-passkeys.png" style="margin: 20px auto 0 0; height: 300px;" >
+
+::right::
+
+&nbsp;
+
+<img src="/devoxx-mcp.png" style="margin: 20px auto; height: 300px;" >
+
+---
 layout: image
 image: /meet-me.jpg
 class: end
