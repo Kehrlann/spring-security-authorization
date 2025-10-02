@@ -32,7 +32,11 @@ public class DemoUserDetailsService implements UserDetailsService {
 	 */
 	@PostAuthorize("@authorizationService.sameDomain(authentication, returnObject)")
 	public DemoUser findUser(String username) {
-		return loadUserByUsername(username);
-	}
+        try {
+            return loadUserByUsername(username);
+        } catch (UsernameNotFoundException e) {
+            throw new RuntimeException("Username not found: " + username);
+        }
+    }
 
 }
