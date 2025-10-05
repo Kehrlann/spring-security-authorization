@@ -343,6 +343,15 @@ image: authz-internals-5.png
 
 ---
 
+# 🧠 Authorization design
+
+1. **Thinking about authorization**
+1. Information is key
+1. Multiple filter chains
+1. Access control models
+
+---
+
 # Thinking about authorization
 
 <br>
@@ -365,21 +374,50 @@ image: xacml-2.png
 
 ---
 
+# 🧠 Authorization design
+
+1. Thinking about authorization
+1. **Information is key**
+1. Multiple filter chains
+1. Access control models
+
+---
+
 # Information is key
 
 &nbsp;
 
 - What information is relevant for the security decision?
 - Where can you capture or transform it?
-- Consider:
-    - `AuthenticationConverter` works on HttpServletRequest
-    - `AuthenticationProvider` works on Authentication
-    - `AuthenticationDetailsSource` also HttpServletRequest
-    - Last resort: `Filter`
+
+Make that information available, interfaces are neat.
 
 ---
 
 # Information is key
+
+&nbsp;
+
+To extract information at login time, consider:
+
+- `AuthenticationConverter` works on HttpServletRequest
+- `AuthenticationProvider` works on Authentication
+- `AuthenticationDetailsSource` also HttpServletRequest
+- Auth-specific abstractions (eg `OidcUserService`)
+- Last resort: `Filter`
+
+---
+
+# 🧠 Authorization design
+
+1. Thinking about authorization
+1. Information is key
+1. **Multiple filter chains**
+1. Access control models
+
+---
+
+# Multiple filter chains
 
 &nbsp;
 
@@ -397,6 +435,38 @@ _PSA: Don't create 65 `SecurityFilterChain`s._
 
 ---
 
+# 🧠 Authorization design
+
+1. Thinking about authorization
+1. Information is key
+1. Multiple filter chains
+1. **Access control models**
+
+---
+
+# Access control models
+
+- **RBAC**: Role-Based Access Control
+- **ABAC**: Attribute-Based Access Control
+- **ReBAC**: RElationship-Based Access Control
+
+(Not mentionig [ACLs](https://github.com/spring-projects/spring-security/tree/main/acl))
+
+---
+
+# Access control models
+
+- **RBAC**: Native to Spring Security, simple
+    - But! "Roles explosion"
+- **ABAC**: Fine-grained authorization
+    - Today, implemented outside of the app (Open Policy Agent)
+- **ReBAC**: Great for hierarchies of authz
+    - Cool kid on the block, inspired by Google™
+    - Always as an external system
+    - Many tools: SpiceDB, OpenFGA, Permify, ...
+
+---
+
 # Spring Security Authorization
 
 1. 🍃 A demo app
@@ -405,6 +475,19 @@ _PSA: Don't create 65 `SecurityFilterChain`s._
 1. ⚙️ Authorization internals
 1. 🧠 Authorization design
 1. 🧪 **A word on testing**
+
+---
+
+# A word on testing
+
+&nbsp;
+
+Good tooling for authorities-based testing (`@WithMockUser(...)`)
+
+Hardcore: implement your `@WithSecurityContextFactory`
+
+Does not test authentication & information transformation
+
 
 ---
 
