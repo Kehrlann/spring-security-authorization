@@ -306,6 +306,41 @@ image: security-filter-chain.png
 ---
 
 ---
+
+# Spring Security Filter
+
+```java
+public void doFilter(
+  HttpServletRequest request,
+  HttpServletResponse response,
+  FilterChain chain
+  ) {
+    // 1. Before the request proceeds further
+    // (e.g. authentication or reject req)
+    // ...
+
+    // 2. Invoke the "rest" of the chain
+    chain.doFilter(request, response);
+
+    // 3. Once the request has been fully processed (e.g. cleanup)
+    // ...
+}
+```
+
+---
+layout: center
+---
+
+<img src="filter-chain-oop.png" style="max-height: 500px;"/>
+
+---
+layout: center
+---
+
+<img src="filter-chain-call-stack.png" style="max-height: 500px;"/>
+
+
+---
 layout: image
 image: authz-internals-1.png
 ---
@@ -345,6 +380,8 @@ image: authz-internals-5.png
 
 # 🧠 Authorization design
 
+<br>
+
 1. **Thinking about authorization**
 1. Information is key
 1. Multiple filter chains
@@ -376,6 +413,8 @@ image: xacml-2.png
 
 # 🧠 Authorization design
 
+<br>
+
 1. Thinking about authorization
 1. **Information is key**
 1. Multiple filter chains
@@ -401,14 +440,16 @@ Make that information available, interfaces are neat.
 To extract information at login time, consider:
 
 - `AuthenticationConverter` works on HttpServletRequest
-- `AuthenticationProvider` works on Authentication
 - `AuthenticationDetailsSource` also HttpServletRequest
+- `AuthenticationProvider` works on Authentication
 - Auth-specific abstractions (eg `OidcUserService`)
 - Last resort: `Filter`
 
 ---
 
 # 🧠 Authorization design
+
+<br>
 
 1. Thinking about authorization
 1. Information is key
@@ -437,6 +478,8 @@ _PSA: Don't create 65 `SecurityFilterChain`s._
 
 # 🧠 Authorization design
 
+<br>
+
 1. Thinking about authorization
 1. Information is key
 1. Multiple filter chains
@@ -445,6 +488,8 @@ _PSA: Don't create 65 `SecurityFilterChain`s._
 ---
 
 # Access control models
+
+<br>
 
 - **RBAC**: Role-Based Access Control
 - **ABAC**: Attribute-Based Access Control
