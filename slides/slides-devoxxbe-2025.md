@@ -542,10 +542,10 @@ Does not test authentication & information transformation
 
 #### <logos-github-icon /> https://github.com/Kehrlann/spring-security-authorization
 
-<!-- qrencode -s 9 -m 2 -o qr-code.png https://mobile.devoxx.com/events/devoxxuk25/rate-talk/2999 -->
+<!-- qrencode -s 9 -m 2 -o qr-code.png https://m.devoxx.com/events/dvbe25/talks/6228/authorization-in-spring-security-permissions-roles-and-beyond -->
 <div style="float:right; margin-right: 50px; text-align: center;">
     <a href="https://openfeedback.io/vctpDk4vX1kUwUk2eh2M/2025-09-17/vSmE0dYwPcXMNnw047ca" target="_blank">
-        <img src="/qr-code.png" style="margin-bottom: -45px; height: 300px;" >
+        <img src="/qr-code-devoxx-be.png" style="margin-bottom: -45px; height: 300px;" >
     </a>
 </div>
 
