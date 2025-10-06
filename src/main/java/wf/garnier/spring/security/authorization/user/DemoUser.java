@@ -61,7 +61,7 @@ public class DemoUser implements UserEmail, UserDetails, CredentialsContainer, S
 		return this.email;
 	}
 
-    public List<String> getRoles() {
+	public List<String> getRoles() {
 		return this.authorities.stream()
 			.map(GrantedAuthority::getAuthority)
 			.map(r -> r.replace("ROLE_", ""))
@@ -85,6 +85,11 @@ public class DemoUser implements UserEmail, UserDetails, CredentialsContainer, S
 		result = 31 * result + Objects.hashCode(authorities);
 		result = 31 * result + Objects.hashCode(email);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "DemoUser{" + "username='" + username + "'" + ", email=" + email + ", authorities=" + authorities + "}";
 	}
 
 }
