@@ -544,7 +544,7 @@ Does not test authentication & information transformation
 
 <!-- qrencode -s 9 -m 2 -o qr-code.png https://m.devoxx.com/events/dvbe25/talks/6228/authorization-in-spring-security-permissions-roles-and-beyond -->
 <div style="float:right; margin-right: 50px; text-align: center;">
-    <a href="https://openfeedback.io/vctpDk4vX1kUwUk2eh2M/2025-09-17/vSmE0dYwPcXMNnw047ca" target="_blank">
+    <a href="https://m.devoxx.com/events/dvbe25/talks/6228/authorization-in-spring-security-permissions-roles-and-beyond" target="_blank">
         <img src="/qr-code-devoxx-be.png" style="margin-bottom: -45px; height: 300px;" >
     </a>
 </div>
