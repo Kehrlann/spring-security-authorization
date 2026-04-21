@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.authorization.AuthorizationResult;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 
@@ -16,7 +17,7 @@ class NameMatchesVariableAuthorizationManager implements AuthorizationManager<Re
 	}
 
 	@Override
-	public AuthorizationDecision check(Supplier<Authentication> authentication,
+	public AuthorizationResult authorize(Supplier<? extends Authentication> authentication,
 			RequestAuthorizationContext requestContext) {
 		var value = requestContext.getVariables().get(variableName);
 		var auth = authentication.get();

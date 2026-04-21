@@ -107,9 +107,9 @@ class SecurityConfiguration {
 		return OpenFgaClient.create(builder);
 	}
 
-    @Bean
-    OidcUserService oidcUserService() {
-        return new DemoOidcUserService();
-    }
+	@Bean
+	OidcUserService oidcUserService() {
+		return new DemoOidcUserService();
+	}
 
 }
