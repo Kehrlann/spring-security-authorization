@@ -610,10 +610,10 @@ Does not test authentication & information transformation
 
 #### <logos-github-icon /> https://github.com/Kehrlann/spring-security-authorization
 
-<!-- qrencode -s 9 -m 2 -o qr-code.png https://m.devoxx.com/events/dvbe25/talks/6228/authorization-in-spring-security-permissions-roles-and-beyond -->
+<!-- qrencode -s 9 -m 2 -o qr-code.png https://m.devoxx.com/events/devoxxfr2026/talks/5554/autorisation-avec-spring-security-permissions-roles-et-plus-encore -->
 <div style="float:right; margin-right: 50px; text-align: center;">
-    <a href="https://m.devoxx.com/events/dvbe25/talks/6228/authorization-in-spring-security-permissions-roles-and-beyond" target="_blank">
-        <img src="/qr-code-devoxx-be.png" style="margin-bottom: -45px; height: 300px;" >
+    <a href="https://m.devoxx.com/events/devoxxfr2026/talks/5554/autorisation-avec-spring-security-permissions-roles-et-plus-encore" target="_blank">
+        <img src="/rating-devoxxfr.png" style="margin-bottom: -45px; height: 300px;" >
     </a>
 </div>
 
@@ -645,52 +645,22 @@ layout: two-cols
 layout: two-cols
 ---
 
-More Daniel, on Thursday!
-
-<img src="/devoxx-passkeys.png" style="margin: 20px auto 0 0; height: 300px;" >
+<div style="height: 100%; display: flex; flex: row; justify-content: center; align-items: center;" >
+    <img src="/testing-spring-boot-applications-cover.png" style="" >
+</div>
 
 ::right::
 
-&nbsp;
-
-<img src="/devoxx-mcp.png" style="margin: 20px auto; height: 300px;" >
-
----
-layout: image
-image: /meet-me.jpg
-class: end
----
-
-# **Merci 😊**
-
----
-layout: cover
----
-
-# Appendix
-
----
-layout: image-left
-image: dimitris-by-daniel.jpg
-class: smaller
----
-
-## **Meet Dimitris!**
-
-<br>
-
-Dimitris Doutsiopoulos, offical Devoxx photographer!
-
-<br>
-
-- <logos-firefox /> https://ddphotography.gr
-- <logos-instagram-icon /> @dimitrisdoutsiopoulos
-- <logos-bluesky /> @ddoutsiopoulos
-
----
-layout: image
-image: daniel-intro.jpg
----
+<div style="height: 100%; display: flex; flex-flow: column; justify-content: center; align-items: center;" >
+    <img src="/manning-affiliate-qr-code.png" style="display: block;" >
+    <div>https://hubs.la/Q04bFz560</div>
+    <br>
+    <div>45% de remise!</div>
+    <br>
+    <div><b>devoxxfr26</b></div>
+    <br>
+    <div>(jusqu'au 9 mai)</div>
+</div>
 
 ---
 layout: image
