@@ -29,7 +29,7 @@ Devoxx Belgium, 2025-10-07
 
 ---
 layout: image-right
-image: /daniel-intro.jpg
+image: /daniel-broken-shoulder.jpg
 class: smaller
 ---
 
