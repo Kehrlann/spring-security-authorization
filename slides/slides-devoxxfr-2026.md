@@ -24,7 +24,7 @@ layout: cover
 
 ### Daniel Garnier-Moiroux
 
-Devoxx Belgium, 2025-10-07
+Devoxx France, 2026-04-23
 
 
 ---
@@ -37,7 +37,7 @@ class: smaller
 ### Garnier-Moiroux
 <br>
 
-Software Engineer @ Broadcom
+Software Engineer
 
 - <logos-spring-icon /> Spring
 - <logos-bluesky /> @garnier.wf
