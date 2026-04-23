@@ -31,6 +31,8 @@
         </li>
         <li><a href="/method-security/profile/josh">/method-security/profile/josh</a> - must have same email domain</li>
         <li><a href="/http-basic">/http-basic</a> - must login with HTTP basic</li>
+        <li><a href="/admin-mfa">/admin-mfa</a> - must use multi-factor authentication</li>
+        <li><a href="/password">/password</a> - must have logged in recently</li>
         <li><a href="/shipments/1">View single shipment</a> - secured externally</li>
     </ul>
     <th:block th:if="${shipmentCount != null}">

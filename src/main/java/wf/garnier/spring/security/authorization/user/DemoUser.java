@@ -44,6 +44,9 @@ public class DemoUser implements UserEmail, UserDetails, CredentialsContainer, S
 
 	@Override
 	public String getPassword() {
+		if (this.password.startsWith("{")) {
+			return this.password;
+		}
 		return "{noop}" + this.password;
 	}
 

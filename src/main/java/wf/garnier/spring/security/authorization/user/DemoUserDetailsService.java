@@ -6,16 +6,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class DemoUserDetailsService implements UserDetailsService {
 
 	private final Map<String, DemoUser> users;
 
+	private final PasswordEncoder passwordEncoder;
+
 	public DemoUserDetailsService(DemoUser... users) {
+		this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
 		this.users = Arrays.stream(users)
-			.collect(Collectors.toUnmodifiableMap(DemoUser::getUsername, Function.identity()));
+			.collect(Collectors.toMap(DemoUser::getUsername, Function.identity()));
 	}
 
 	@Override
@@ -32,11 +39,20 @@ public class DemoUserDetailsService implements UserDetailsService {
 	 */
 	@PostAuthorize("@authorizationService.sameDomain(authentication, returnObject)")
 	public DemoUser findUser(String username) {
-        try {
-            return loadUserByUsername(username);
-        } catch (UsernameNotFoundException e) {
-            throw new RuntimeException("Username not found: " + username);
-        }
-    }
+		try {
+			return loadUserByUsername(username);
+		}
+		catch (UsernameNotFoundException e) {
+			throw new RuntimeException("Username not found: " + username);
+		}
+	}
+
+	@PreAuthorize("principal.username == #username")
+	public void updatePassword(String username, String newPassword) {
+		var existingUser = loadUserByUsername(username);
+		var updated = new DemoUser(existingUser.getUsername(), passwordEncoder.encode(newPassword),
+				existingUser.getUserEmail().toString(), existingUser.getRoles());
+		users.put(username, updated);
+	}
 
 }

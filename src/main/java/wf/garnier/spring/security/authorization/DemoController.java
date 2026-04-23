@@ -1,6 +1,5 @@
 package wf.garnier.spring.security.authorization;
 
-import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.DemoUserDetailsService;
 import wf.garnier.spring.security.authorization.user.UserEmail;
 
@@ -10,17 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 class DemoController {
 
 	private final ShipmentRepository shipmentRepository;
 
-	private final DemoUserDetailsService demoUserDetailsService;
+	private final DemoUserDetailsService userDetailsService;
 
-	DemoController(ShipmentRepository shipmentRepository, DemoUserDetailsService demoUserDetailsService) {
+	DemoController(ShipmentRepository shipmentRepository, DemoUserDetailsService userDetailsService) {
 		this.shipmentRepository = shipmentRepository;
-		this.demoUserDetailsService = demoUserDetailsService;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@GetMapping("/")
@@ -35,7 +35,7 @@ class DemoController {
 		return "private";
 	}
 
-	@GetMapping("/admin")
+	@GetMapping({ "/admin", "/admin-mfa" })
 	public String adminPage(@AuthenticationPrincipal UserEmail user, Model model) {
 		model.addAttribute("name", user.getUserEmail());
 		return "admin";
@@ -43,7 +43,7 @@ class DemoController {
 
 	@GetMapping({ "/profile/{username}", "/method-security/profile/{username}" })
 	public String profile(@PathVariable String username, Model model) {
-		var user = demoUserDetailsService.findUser(username);
+		var user = userDetailsService.findUser(username);
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -81,5 +81,16 @@ class DemoController {
 		return "ok";
 	}
 
+	@GetMapping({ "/password", "/stronger-password" })
+	public String passwordPage() {
+		return "password";
+	}
+
+	@PostMapping("/password")
+	public String updatePassword(Authentication authentication, String newPassword, Model model) {
+		userDetailsService.updatePassword(authentication.getName(), newPassword);
+		model.addAttribute("success", true);
+		return "redirect:/private";
+	}
 
 }

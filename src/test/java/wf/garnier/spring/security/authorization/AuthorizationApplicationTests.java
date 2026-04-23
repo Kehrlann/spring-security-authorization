@@ -314,7 +314,7 @@ class AuthorizationApplicationTests {
 
 	private static RequestPostProcessor user(String username, String emailDomain) {
 		return SecurityMockMvcRequestPostProcessors
-			.user(new DemoUser(username, null, username + "@" + emailDomain, Collections.emptyList()));
+			.user(new DemoUser(username, "", username + "@" + emailDomain, Collections.emptyList()));
 	}
 
 }

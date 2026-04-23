@@ -8,3 +8,8 @@ server:
   servlet:
     session:
       persistent: true
+
+
+logging:
+  level:
+    org.springframework.security: TRACE
