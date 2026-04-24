@@ -2,7 +2,6 @@ name: spring-security-authorization
 
 services:
   open-fga:
-    # TODO!!!!
     image: openfga/openfga:v1.13
     ports:
       - target: 9000
