@@ -114,6 +114,7 @@ You've done this before! Some authentication (login), and then some authorizatio
 1. 🤓 **Quick refresher: authentication basics**
 1. 🛠️ Spring Security's authz tooling
 1. 🧬🔑 Multi-factor authentication
+1. ⚙️ Authorization internals
 1. 🧠 Authorization design
 1. 🧪 A word on testing
 

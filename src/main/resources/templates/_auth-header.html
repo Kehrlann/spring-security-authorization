@@ -4,15 +4,17 @@
 <body>
 
 <th:block th:fragment="nav"
-     th:with="principal=${T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getPrincipal()}"
+          th:with="principal=${T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getPrincipal()}"
 >
-    <nav
-            th:if="${principal != null && principal instanceof T(wf.garnier.spring.security.authorization.user.UserEmail)}"
-            th:attr="class=${principal.getRoles().contains('admin') ? 'admin' : ''}"
-    >
-        <span th:text="${principal.getUsername()}"></span> - <span th:text="${principal.getUserEmail()}"></span> - <span
-            th:text="${principal.getRoles()}"></span>
-    </nav>
+    <th:block >
+        <nav th:if="${principal != null && principal.class.name != 'java.lang.String'}"
+                th:with="roles=${principal.roles != null ? principal.roles : List.of()}"
+                th:attr="class=${roles.contains('admin') ? 'admin' : ''}"
+        >
+            <span th:text="${principal.getUsername()}"></span> - <span th:text="${principal.getUserEmail()}"></span> -
+            <span th:text="${roles}"></span>
+        </nav>
+    </th:block>
 </th:block>
 
 </body>
