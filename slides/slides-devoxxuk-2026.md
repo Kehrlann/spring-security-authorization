@@ -53,7 +53,7 @@ layout: center
 
 <br>
 
-### Spring Security: The Good Parts™™
+### Spring Security: The Good Parts™
 
 Devoxx UK 2024! On YouTube!
 
