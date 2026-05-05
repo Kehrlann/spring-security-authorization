@@ -4,7 +4,7 @@
 <body>
 
 <th:block th:fragment="nav"
-          th:with="principal=${T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getPrincipal()}"
+          th:with="principal=${#authorization.expression('isAuthenticated()') ? #authentication.principal : null}"
 >
     <th:block >
         <nav th:if="${principal != null && principal.class.name != 'java.lang.String'}"
