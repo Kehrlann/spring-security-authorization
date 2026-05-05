@@ -1,6 +1,7 @@
 package wf.garnier.spring.security.authorization;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import wf.garnier.spring.security.authorization.user.DemoUser;
 import wf.garnier.spring.security.authorization.user.UserEmail;
@@ -11,16 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthorizationService {
 
-	public boolean sameDomain(Authentication authentication, DemoUser otherUser) {
-        if (!(authentication.getPrincipal() instanceof UserEmail authUser)) {
+	public boolean sameDomain(Object authenticatedPrincipal, DemoUser otherUser) {
+        if (!(authenticatedPrincipal instanceof UserEmail authUser)) {
 			return false;
 		}
 
 		return authUser.getUserEmail().domain().equals(otherUser.getUserEmail().domain());
 	}
 
-	public boolean hasAllowedDomain(Authentication authentication, String[] allowedDomains) {
-		if (!(authentication.getPrincipal() instanceof UserEmail authUser)) {
+	public boolean hasAllowedDomain(Object authenticatedPrincipal, String[] allowedDomains) {
+		if (!(authenticatedPrincipal instanceof UserEmail authUser)) {
 			return false;
 		}
 

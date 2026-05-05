@@ -37,7 +37,7 @@ public class DemoUserDetailsService implements UserDetailsService {
 	/**
 	 * Expose a new method for demo purposes, so we can annotate it.
 	 */
-	@PostAuthorize("@authorizationService.sameDomain(authentication, returnObject)")
+	@PostAuthorize("@authorizationService.sameDomain(principal, returnObject)")
 	public DemoUser findUser(String username) {
 		try {
 			return loadUserByUsername(username);

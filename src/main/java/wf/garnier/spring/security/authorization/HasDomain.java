@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@PreAuthorize("@authorizationService.hasAllowedDomain(authentication, '{domains}')")
+@PreAuthorize("@authorizationService.hasAllowedDomain(principal, '{domains}')")
 public @interface HasDomain {
 
 	/**
