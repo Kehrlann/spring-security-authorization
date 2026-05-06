@@ -65,18 +65,18 @@ Devoxx UK 2024! On YouTube!
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
 1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
+1. ⛓️ Beyond the filter chain
 1. 🧪 A word on testing
 
 ---
 
 # Spring Security Authorization
 
-1. 🍃 A demo app
+1. **🍃 A demo app**
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
 1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
+1. ⛓️ Beyond the filter chain
 1. 🧪 A word on testing
 
 ---
@@ -96,10 +96,10 @@ You've done this before! Some authentication (login), and then some authorizatio
 # Spring Security Authorization
 
 1. 🍃 A demo app
-1. 🤓 Quick refresher: authentication basics
+1. **🤓 Quick refresher: authentication basics**
 1. 🛠️ Spring Security's authz tooling
 1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
+1. ⛓️ Beyond the filter chain
 1. 🧪 A word on testing
 
 ---
@@ -122,10 +122,9 @@ Stored in the `SecurityContext`.
 
 1. 🍃 A demo app
 1. 🤓 Quick refresher: authentication basics
-1. 🛠️ **Spring Security's authz tooling**
+1. **🛠️ Spring Security's authz tooling**
 1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
-1. 🧠 Authorization design
+1. ⛓️ Beyond the filter chain
 1. 🧪 A word on testing
 
 ---
@@ -273,9 +272,8 @@ Annotate call site with `@AuthorizeReturnObject` to create a proxy and enforce t
 1. 🍃 A demo app
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
-1. 🧬🔑 **Multi-factor authentication**
-1. ⚙️ Authorization internals
-1. 🧠 Authorization design
+1. **🧬🔑 Multi-factor authentication**
+1. ⛓️ Beyond the filter chain
 1. 🧪 A word on testing
 
 ---
@@ -327,81 +325,6 @@ return http
 
 ```
 
----
-
-# Spring Security Authorization
-
-1. 🍃 A demo app
-1. 🤓 Quick refresher: authentication basics
-1. 🛠️ Spring Security's authz tooling
-1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
-1. 🧪 A word on testing
-
----
-layout: image
-image: security-filter-chain.png
----
-
----
-
-# Spring Security Filter
-
-```java
-public void doFilter(
-  HttpServletRequest request,
-  HttpServletResponse response,
-  FilterChain chain
-  ) {
-    // 1. Before the request proceeds further
-    // (e.g. authentication or reject req)
-    // ...
-
-    // 2. Invoke the "rest" of the chain
-    chain.doFilter(request, response);
-
-    // 3. Once the request has been fully processed (e.g. cleanup)
-    // ...
-}
-```
-
----
-layout: center
----
-
-<img src="filter-chain-oop.png" style="max-height: 500px;"/>
-
----
-layout: center
----
-
-<img src="filter-chain-call-stack.png" style="max-height: 500px;"/>
-
-
----
-layout: image
-image: authz-internals-1.png
----
-
----
-layout: image
-image: authz-internals-2.png
----
-
----
-layout: image
-image: authz-internals-3.png
----
-
----
-layout: image
-image: authz-internals-4.png
----
-
----
-layout: image
-image: authz-internals-5.png
----
 
 ---
 
@@ -411,8 +334,51 @@ image: authz-internals-5.png
 1. 🤓 Quick refresher: authentication basics
 1. 🛠️ Spring Security's authz tooling
 1. 🧬🔑 Multi-factor authentication
-1. ⚙️ Authorization internals
+1. **⛓️ Beyond the filter chain**
 1. 🧪 A word on testing
+
+---
+
+# Information is key
+
+&nbsp;
+
+- What information is relevant for the security decision?
+- Where can you capture or transform it?
+- Consider:
+    - `AuthenticationConverter` works on HttpServletRequest
+    - `AuthenticationProvider` works on Authentication
+    - `AuthenticationDetailsSource` also HttpServletRequest
+    - Last resort: `Filter`
+
+---
+
+# Beyond the filter chain
+
+&nbsp;
+
+Context matters!
+
+Dedicated `SecurityFilterChain`s with different rules bring the complexity down:
+- Simpler information gathering
+- Simpler rules
+
+<v-click>
+
+_PSA: Don't create 65 `SecurityFilterChain`s._
+
+</v-click>
+
+---
+
+# Spring Security Authorization
+
+1. 🍃 A demo app
+1. 🤓 Quick refresher: authentication basics
+1. 🛠️ Spring Security's authz tooling
+1. 🧬🔑 Multi-factor authentication
+1. ⛓️ Beyond the filter chain
+1. **🧪 A word on testing**
 
 ---
 
@@ -420,7 +386,9 @@ image: authz-internals-5.png
 
 &nbsp;
 
-Good tooling for authorities-based testing (`@WithMockUser(...)`)
+Good tooling for authorities-based testing:
+- `@WithMockUser(...)`, `@WithUserDetails(...)`
+- `SecurityMockMvcRequestPostProcessors.` : `user`, `csrf`, `authentication`, `oidcLogin`, ...
 
 Hardcore: implement your `@WithSecurityContextFactory`
 
@@ -462,8 +430,6 @@ layout: center
 layout: two-cols
 ---
 
-<!-- TODO -->
-
 <div style="height: 100%; display: flex; flex: row; justify-content: center; align-items: center;" >
     <img src="/testing-spring-boot-applications-cover.png" style="" >
 </div>
@@ -474,9 +440,9 @@ layout: two-cols
     <img src="/manning-affiliate-qr-code.png" style="display: block;" >
     <div>https://hubs.la/Q04bFz560</div>
     <br>
-    <div>45% de remise!</div>
+    <div>45% off <i>everything!</i></div>
     <br>
-    <div><b>devoxxfr26</b></div>
+    <div><b>devoxxuk26</b></div>
     <br>
-    <div>(jusqu'au 9 mai)</div>
+    <div>(until May 20th)</div>
 </div>
