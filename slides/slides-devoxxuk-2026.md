@@ -304,26 +304,12 @@ Use with:
 
 # Time-based MFA
 
-```java
-// AuthorizationManager
-var passwordLastMinute = AllRequiredFactorsAuthorizationManager
-	.builder()
-	.requireFactor((factor) ->
-			factor.passwordAuthority()
-				.validDuration(Duration.ofSeconds(30))
-	)
-	.build();
+&nbsp;
 
-// usage:
-return http
-		.authorizeHttpRequests(authz -> {
-					authz.requestMatchers("/password")
-							.access(passwordLastMinute);
-					// ...
-				})
-		// ...
+Dedicated `AuthorizationManager`:
 
-```
+- `AllRequireFactorsAuthorizationManager`
+- `RequiredFactor.builder().validDuration(...)`
 
 
 ---
